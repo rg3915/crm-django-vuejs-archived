@@ -28,4 +28,3 @@ Já temos um superuser cadastrado:
 user: admin
 pass: d
 ```
-
