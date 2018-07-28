@@ -1,0 +1,49 @@
+<!-- modalContactAdd -->
+<div class="modal fade" id="modalContactAdd" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">
+          Adicionar Contato
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+      </div>
+      <form action="." method="POST">
+        <div class="modal-body">
+          {% csrf_token %}
+            <!-- { for field in form.visible_fields %}
+              <div class="form-group">
+                <label for="{ field.id_for_label }}">{ field.label }}</label>
+                { render_field field class="form-control" %}
+                { for error in field.errors %}
+                  <span class="text-muted">{ error }}</span>
+                { endfor %}
+              </div>
+            { endfor %} -->
+          <div class="form-group">
+            <label for="id_name">Nome</label>
+            <input id="id_name" name="name" v-model="name" type="text" class="form-control" maxlength="100" />
+          </div>
+          <div class="form-group">
+            <label for="id_email">E-Mail</label>
+            <input id="id_email" name="email" v-model="email" type="email" class="form-control" maxlength="254" />
+          </div>
+          <div class="form-group">
+            <label for="id_phone">Telefone</label>
+            <input id="id_phone" name="phone" v-model="phone" type="text" class="form-control" maxlength="20" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            Fechar
+          </button>
+          <button type="submit" class="btn btn-primary" @click="save_contact()" data-dismiss="modal">
+            Salvar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

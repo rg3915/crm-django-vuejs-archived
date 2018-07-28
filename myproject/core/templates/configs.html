@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}
+  Configurações
+{% endblock title %}
+
+{% block breadcrumb %}
+  {% include "includes/breadcrumb.html" %}
+{% endblock breadcrumb %}
+
+{% block content %}
+
+<div class="row">
+   <div class="col-md-12">
+     <div class="card">
+       <div class="card-header">
+         Permissões dos Usuários
+       </div>
+       <div class="card-body">
+         <div class="col-sm-6">
+
+          <div class='row mt-3'>
+            <div class="col-md-2">
+              <i class="fa fa-cog fa-5x"></i>
+            </div>
+
+          <div class="col-md-10">
+            <table class="table">
+                  <tr>
+                    <td>Usuários</td>
+                    <td>Editar</td>
+                  </tr>
+
+                <tbody>
+                    <tr>
+                    <td>John Smith</td>
+                      <td width="10" align="center">
+                        <a href="{% url 'core:configs_edit' %}">
+                          <i class="icon-note"></i>
+                        </a>
+                    </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Herbert Hoover</td>
+                      <td width="10" align="center">
+                        <a href="{% url 'core:configs_edit' %}">
+                          <i class="icon-note"></i>
+                        </a>
+                      </td>
+                    </tr>
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}

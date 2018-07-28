@@ -1,0 +1,104 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template" />
+    <meta name="author" content="Łukasz Holeczek" />
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard" />
+    <!-- Icons-->
+    <link href="{% static 'css/flag-icon-css/css/flag-icon.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/simple-line-icons/css/simple-line-icons.css' %}" rel="stylesheet" />
+    <!-- Main styles for this application-->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+  </head>
+  <body class="app flex-row align-items-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card-group">
+            <div class="card p-4">
+              <div class="card-body">
+                <h1>Login</h1>
+                <!-- <p class="text-muted">Sign In to your account</p> -->
+                {% for message in messages %}
+                  {% if 'success' in message.tags %}
+                    <p class="alert alert-success" role="alert"><span style="font-weight:bold">{{ message }}</span></p>
+                  {% else %}
+                    <p class="alert alert-danger" role="alert"><span style="font-weight:bold">{{ message }}</span></p>
+                  {% endif %}
+                {% endfor %}
+                <form action="." method="POST">
+                  {% csrf_token %}
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">@</span>
+                    </div>
+                    {% render_field form.username class='form-control' placeholder='E-mail' %}
+                  </div>
+                  <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="icon-lock"></i>
+                      </span>
+                    </div>
+                    {% render_field form.password class='form-control' placeholder='Senha' %}
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <button type="submit" class="btn btn-primary px-4">Entrar</button>
+                    </div>
+                </form>
+                    <!-- <div class="col-6 text-right">
+                      <a href="{ url 'accounts:reset_password' uid=uid token=token %}">
+                        Recuperar Senha
+                      </a>
+                    </div> -->
+                  </div>
+              </div>
+            </div>
+            <div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">
+              <div class="card-body text-center">
+                <img src="https://vuejs.org/images/logo.png" alt="" width="100%" style="padding-top:8%">
+              </div>
+              <!-- <div class="card-body text-center">
+                <div>
+                  <h2>Cadastre-se</h2>
+                  <p>Crie uma nova conta</p>
+                  <a href="{ url 'accounts:register' %}">
+                    <button type="button" class="btn btn-primary active mt-3">Registre-se Agora!</button>
+                  </a>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap and necessary plugins-->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/pace.min.js' %}"></script>
+    <script src="{% static 'js/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'js/coreui.min.js' %}"></script>
+
+    <script>
+      window.onload = function() {
+        var input = document.getElementById("id_username").focus();
+      }
+
+      //close alert after 2 seconds
+      window.setTimeout(function() {
+          $(".alert").fadeTo(500, 0).slideUp(500, function(){
+              $(this).remove();
+          });
+      }, 2000);
+
+    </script>
+  </body>
+</html>

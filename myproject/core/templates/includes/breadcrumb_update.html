@@ -1,0 +1,7 @@
+{% block breadcrumb %}
+
+<li class="breadcrumb-item"><a href="{{ object.list_url }}">{{ model_name_plural }}</a></li>
+<li class="breadcrumb-item"><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+<li class="breadcrumb-item active">Editar</li>
+
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}
+  | Funcionários
+{% endblock title %}
+
+{% block breadcrumb %}
+  {% if 'add' in request.resolver_match.url_name %}
+    {% include "includes/breadcrumb_add.html" %}
+  {% else %}
+    {% include "includes/breadcrumb_update.html" %}
+  {% endif %}
+{% endblock breadcrumb %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        Cadastrar
+      </div>
+      <div class="card-body">
+        <div class="col-sm-6">
+          <form action="" method="POST" enctype="multipart/form-data" 
+                data-url="{% url 'crm:ajax_load_occupations' %}">
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+              <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% if field.field.required %}<b style="color:red">*</b>{% endif %}
+                {% render_field field class="form-control" %}
+                {% for error in field.errors %}
+                  <span class="text-muted">{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+
+<script>
+  $(document).ready(function(){
+    $('#id_birthday').datepicker({
+      locale: "pt-BR"
+    });
+    $('#id_date_admission').datepicker({
+      locale: "pt-BR"
+    });
+    $('#id_date_release').datepicker({
+      locale: "pt-BR"
+    });
+
+    $('#id_email').attr("placeholder", "E-mail da empresa");
+    $('#id_personal_email').attr("placeholder", "E-mail pessoal");
+
+    $("#id_cpf").mask("999.999.999-99");
+    // $("#id_phone").mask("(99) 9999-9999?9"); //after ? is optional
+    $("#id_cep").mask("99999-999");
+
+    $('#id_cep').parent().append('<div class="pull-right"><i id="id_spinner" class="fa fa-spinner fa-spin fa-fw" style="display:none"></i><a href="javascript:findCEP()" class="btn btn-sm btn-primary" type="button">Validar CEP</a></div>');
+  })
+
+  $('#id_department').change(function() {
+    let url = $('form').data('url')
+    let departmentId = $(this).val()
+
+    $.ajax({
+      url: url,
+      data: {
+        'department': departmentId
+      },
+      success: function(data) {
+        $('#id_occupation').html(data);
+      },
+    });
+  });
+
+  function findCEP() {
+    if($.trim($("#id_cep").val()) != ""){
+      $('#id_spinner').css('display', 'inline');
+      $.getScript("http://cep.republicavirtual.com.br/web_cep.php?formato=javascript&cep="+$("#id_cep").val().replace("-", ""), function(){
+          if(resultadoCEP["resultado"] == 1){
+            $("#id_address").val(unescape(resultadoCEP["tipo_logradouro"])+" "+unescape(resultadoCEP["logradouro"]));
+            $("#id_district").val(unescape(resultadoCEP["bairro"]));
+            $("#id_city").val(unescape(resultadoCEP["cidade"]));
+            $("#id_uf").val(unescape(resultadoCEP["uf"]));
+            $("#id_address_number").focus();
+          }else{
+            alert("Endereço não encontrado para o cep ");
+          }
+          $('#id_spinner').css('display', 'none');
+      });
+    }
+  }
+
+  $('form').submit(function(event) {
+    $('#id_cpf').replace(".", "").replace("-", "");
+    event.preventDefault();
+  });
+
+  $('#id_cpf').lost;
+
+
+</script>
+
+{% endblock js %}

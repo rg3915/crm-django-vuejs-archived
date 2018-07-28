@@ -1,0 +1,514 @@
+{% extends "base.html" %}
+{% load static %}
+{% load usergroup_tags %}
+{% load easy_mask %}
+
+{% block title %}
+  Funcionário
+{% endblock title %}
+
+{% block breadcrumb %}
+  {% include "includes/breadcrumb_detail.html" %}
+{% endblock breadcrumb %}
+
+{% block content %}
+
+<style>
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
+</style>
+
+<div id="app">
+<!-- <div id="app" data-pk=" object.pk }}"> -->
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        Detalhes
+        {% if not request.user|has_group:"simpleuser" %}
+          <a href="{{ object.update_url }}" class="btn" title="Editar">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          </a>
+          <a href="#ModalDelete" class="btn" role="button" data-toggle="modal" title="Apagar">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </a>
+        {% endif %}
+      </div>
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="card">
+              {% if object.photo %}
+                <img class="card-img-top" src="{{ object.photo.url }}" alt="{{ object.photo.url }}" style="height: 180px; width: auto; display: block;">
+              {% else %}
+                <img class="card-img-top" data-src="holder.js/100px180/?text=Image cap" alt="Image cap [100%x180]" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22318%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20318%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16050836ef6%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A16pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16050836ef6%22%3E%3Crect%20width%3D%22318%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22109.140625%22%20y%3D%2297.2%22%3EImage%20cap%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+                data-holder-rendered="true" style="height: 180px; width: 100%; display: block;">
+              {% endif %}
+              <div class="card-body">
+                <h4 class="card-title">{{ object.full_name }}</h4>
+                <i class="fa fa-envelope-o"></i> <a href="mailto:{{ object.email }}" class="card-text">{{ object.email }}</a>
+                {% if object.personal_email %}
+                  <br><i class="fa fa-user-o" style="padding-top:10px"></i> <a href="mailto:{{ object.personal_email }}" class="card-text">{{ object.personal_email }}</a>
+                {% endif %}
+              </div>
+              <ul class="list-group list-group-flush">
+                {% if object.rg %}
+                  <li class="list-group-item">RG: {{ object.rg }}</li>
+                {% endif %}
+
+                {% if object.cpf %}
+                  <li class="list-group-item">CPF: {{ object.cpf|cpf_mask }}</li>
+                {% endif %}
+
+                {% if object.oab %}
+                  <li class="list-group-item">OAB: {{ object.oab }} - {{ object.oab_uf }}</li>
+                {% endif %}
+
+                <li class="list-group-item">
+                  Cargo: {{ object.occupation|default:"---" }}
+                  <span class="pull-right">
+                    {{ object.occupation.get_department_display|default:"---" }}
+                  </span>
+                </li>
+
+                <li class="list-group-item">
+                  {{ object.get_address }}<br>
+                  {{ object.get_address_complement }}<br>
+                  CEP: {{ object.cep|cep_mask|default:"---" }}
+                </li>
+              </ul>
+              <!-- <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div> -->
+            </div> <!-- card -->
+          </div> <!-- col-sm-4 -->
+
+          <div class="col-sm-4">
+            <!-- Telefones -->
+            <!-- <my-contact :phones="phones"><my-contact> -->
+
+            <!-- Telefones -->
+            <div class="card">
+              <div class="card-header">
+                Telefones
+                <span class="span-is-link badge badge-success float-right" data-target="#modalPhoneAdd" role="button" data-toggle="modal"><i class="fa fa-plus"></i> Adicionar</span>
+              </div>
+              <div class="card-body">
+                <transition name="fade">
+                  <p id="alert" ref="alert" class="alert alert-warning" v-if="message" role="alert"><span style="font-weight:bold">${ message }</span></p>
+                </transition>
+                <table class="table table-responsive-sm table-outline">
+                  <tbody>
+                    <tr v-for="phone in phones">
+                      <td>
+                        <div>${ phone.phone }</div>
+                        <div class="small">${ phone.phone_type }</div>
+                      </td>
+                      {% if not request.user|has_group:"simpleuser" %}
+                        <td style="padding:0">
+                          <span class="span-is-link span-color-link" data-target="#modalPhoneEdit" data-toggle="modal" @click="load_phone(phone)">
+                            <i class="fa fa-pencil-square-o"></i>
+                          </span>
+                        </td>
+                        <td>
+                          <form action="." method="POST">
+                            {% csrf_token %}
+                            <span class="span-is-link" @click="remove_phone(phone)">
+                              <i class="fa fa-close" style="color:red"></i>
+                            </span>
+                          </form>
+                        </td>
+                      {% endif %}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div> <!-- card -->
+
+            <!-- Contatos -->
+            <div class="card">
+              <div class="card-header">
+                Contatos
+                <span class="span-is-link badge badge-success float-right" data-target="#modalContactAdd" role="button" data-toggle="modal"><i class="fa fa-plus"></i> Adicionar</span>
+              </div>
+              <div class="card-body">
+                <transition name="fade">
+                  <p id="alert" ref="alert" class="alert alert-warning" v-if="message" role="alert"><span style="font-weight:bold">${ message }</span></p>
+                </transition>
+                <table class="table table-responsive-sm table-outline">
+                  <tbody>
+                    <tr v-for="contact in contacts">
+                      <td>
+                        <div>${ contact.name }</div>
+                        <div class="small text-muted">
+                          <a :href="contact.email">${ contact.email }</a>
+                        </div>
+                        <div>${ contact.phone }</div>
+                      </td>
+                      {% if not request.user|has_group:"simpleuser" %}
+                        <td style="padding:0">
+                          <span class="span-is-link span-color-link" data-target="#modalContactEdit" data-toggle="modal" @click="load_contact(contact)">
+                            <i class="fa fa-pencil-square-o"></i>
+                          </span>
+                        </td>
+                        <td>
+                          <form action="." method="POST">
+                            {% csrf_token %}
+                            <span class="span-is-link" @click="remove(contact)">
+                              <i class="fa fa-close" style="color:red"></i>
+                            </span>
+                          </form>
+                        </td>
+                      {% endif %}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div> <!-- card -->
+          </div> <!-- col-sm-4 -->
+
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-header">
+                Dados Bancários
+                <span class="span-is-link badge badge-success float-right" data-target="#modalBankAccountAdd" role="button" data-toggle="modal"><i class="fa fa-plus"></i> Adicionar</span>
+              </div>
+              <div class="card-body">
+                <transition name="fade">
+                  <p id="alert" ref="alert" class="alert alert-warning" v-if="message" role="alert"><span style="font-weight:bold">${ message }</span></p>
+                </transition>
+                <table class="table table-responsive-sm table-outline">
+                  <tbody>
+                    <tr v-for="bank in banks">
+                      <td>
+                        <div><b>Nome:</b> ${ bank.bank_name }</div>
+                        <div><b>Banco:</b> ${ bank.bank }</div>
+                        <div><b>Agência:</b> ${ bank.agency }</div>
+                        <div><b>Conta:</b> ${ bank.account }</div>
+                      </td>
+                      {% if not request.user|has_group:"simpleuser" %}
+                        <td style="padding:0">
+                          <span class="span-is-link span-color-link" data-target="#modalBankAccountEdit" data-toggle="modal" @click="load_bank(bank)">
+                            <i class="fa fa-pencil-square-o"></i>
+                          </span>
+                        </td>
+                        <td>
+                          <form action="." method="POST">
+                            {% csrf_token %}
+                            <span class="span-is-link" @click="remove_bank(bank)">
+                              <i class="fa fa-close" style="color:red"></i>
+                            </span>
+                          </form>
+                        </td>
+                      {% endif %}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div> <!-- card -->
+          </div> <!-- col-sm-4 -->
+
+        </div> <!-- row -->
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include "modal/modal_delete.html" %}
+
+{% include "modal/modal_contact_add.html" %}
+
+{% include "modal/modal_contact_edit.html" %}
+
+{% include "modal/modal_phone_add.html" %}
+
+{% include "modal/modal_phone_edit.html" %}
+
+{% include "modal/modal_bank_add.html" %}
+
+{% include "modal/modal_bank_edit.html" %}
+
+</div>
+
+{% endblock content %}
+
+{% block js %}
+
+  <!-- <script src=" static 'js/api/mixin.js' %}"></script> -->
+  <!-- <script src=" static 'js/api/phone.js' %}"></script> -->
+
+  <script>
+    axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+    axios.defaults.xsrfCookieName = 'csrftoken'
+    var app = new Vue({
+      el: '#app',
+      delimiters: ['${', '}'],
+      data: {
+        employee: '',
+        contacts: [],
+        phones: [],
+        pk: '',
+        name: '',
+        email: '',
+        phone: '',
+        phone2: '',
+        phone_type: '',
+        phone_types: [
+          { value: 'pri', text: 'principal'},
+          { value: 'com', text: 'comercial'},
+          { value: 'res', text: 'residencial'},
+          { value: 'cel', text: 'celular'},
+          { value: 'cl', text: 'Claro'},
+          { value: 'oi', text: 'Oi'},
+          { value: 't', text: 'Tim'},
+          { value: 'v', text: 'Vivo'},
+          { value: 'n', text: 'Nextel'},
+          { value: 'fax', text: 'fax'},
+          { value: 'o', text: 'outros'}
+        ],
+        phone_types_display: {
+          'pri': 'principal',
+          'com': 'comercial',
+          'res': 'residencial',
+          'cel': 'celular',
+          'cl': 'Claro',
+          'oi': 'Oi',
+          't': 'Tim',
+          'v': 'Vivo',
+          'n': 'Nextel',
+          'fax': 'fax',
+          'o': 'outros',
+        },
+        message: '',
+        banks: [],
+        bank_pk: '',
+        bank_name: '',
+        bank: '',
+        agency: '',
+        account: ''
+      },
+      methods: {
+        get_contacts(page){
+          axios.get('/crm/employee/contact/' + page + '/')
+          .then((result) => {
+            this.contacts = result.data.map((item) => {
+              return {pk: item.pk, name: item.fields.name, email: item.fields.email, phone: item.fields.phone}
+            })
+          })
+        },
+        get_phones(page){
+          axios.get('/crm/employee/phone/' + page + '/')
+          .then((result) => {
+            this.phones = result.data.map((item) => {
+              return {pk: item.pk, phone: item.fields.phone, phone_type: this.phone_types_display[item.fields.phone_type]}
+            })
+          })
+        },
+        get_banks(page){
+          axios.get('/crm/employee/bank/' + page + '/')
+          .then((result) => {
+            this.banks = result.data.map((item) => {
+              return {pk: item.pk,
+                bank_name: item.fields.name,
+                bank: item.fields.bank,
+                agency: item.fields.agency,
+                account: item.fields.account
+              }
+            })
+          })
+        },
+        save_contact(){
+          let bodyFormData = new FormData()
+          bodyFormData.append('employee', this.employee)
+          bodyFormData.append('name', this.name)
+          bodyFormData.append('email', this.email)
+          bodyFormData.append('phone', this.phone)
+          // let config = {headers: {'Content-Type': 'multipart/form-data'}}
+          if (!this.name) {
+            this.message = 'Favor preencher o nome.'
+            setTimeout(()=>{
+              this.message = ''
+            }, 2000);
+          } else {
+            axios.post('/crm/employee/contact/add/', bodyFormData)
+            .then((response) => {
+              this.contacts.push(
+                {
+                  name: this.name,
+                  email: this.email,
+                  phone: this.phone
+                }
+              )
+              this.name = ''
+              this.email = ''
+              this.phone = ''
+            })
+          }
+        },
+        save_phone(){
+          let bodyFormData = new FormData()
+          bodyFormData.append('employee', this.employee)
+          bodyFormData.append('phone2', this.phone2)
+          bodyFormData.append('phone_type', this.phone_type)
+          // let config = {headers: {'Content-Type': 'multipart/form-data'}}
+          if (!this.phone2) {
+            this.message = 'Favor preencher o telefone.'
+            setTimeout(()=>{
+              this.message = ''
+            }, 2000);
+          } else {
+            axios.post('/crm/employee/phone/add/', bodyFormData)
+            .then((response) => {
+              this.phones.push(
+                {
+                  phone: this.phone2,
+                  phone_type: this.phone_types_display[this.phone_type]
+                }
+              )
+              this.phone2 = ''
+              this.phone_type = ''
+            })
+          }
+        },
+        load_contact(contact) {
+          this.pk = contact.pk
+          this.name = contact.name
+          this.email = contact.email
+          this.phone = contact.phone
+        },
+        load_phone(phone) {
+          this.pk = phone.pk
+          this.phone2 = phone.phone
+          this.phone_type = phone.phone_type
+        },
+        edit_contact(){
+          let bodyFormData = new FormData()
+          bodyFormData.append('employee', this.employee)
+          bodyFormData.append('pk', this.pk)
+          bodyFormData.append('name', this.name)
+          bodyFormData.append('email', this.email)
+          bodyFormData.append('phone', this.phone)
+          axios.post('/crm/employee/contact/' + this.pk + '/edit/', bodyFormData)
+          .then((response) => {
+            // Da pra melhorar
+            this.contacts = response.data.map((item) => {
+              return {pk: item.pk, name: item.fields.name, email: item.fields.email, phone: item.fields.phone}
+            })
+          })
+        },
+        edit_phone(){
+          let bodyFormData = new FormData()
+          bodyFormData.append('employee', this.employee)
+          bodyFormData.append('pk', this.pk)
+          bodyFormData.append('phone', this.phone2)
+          bodyFormData.append('phone_type', this.phone_type)
+          axios.post('/crm/employee/phone/' + this.pk + '/edit/', bodyFormData)
+          .then((response) => {
+            // Da pra melhorar
+            this.phones = response.data.map((item) => {
+              return {pk: item.pk, phone: item.fields.phone, phone_type: this.phone_types_display[item.fields.phone_type]}
+            })
+          })
+        },
+        save_bank(){
+          let bodyFormData = new FormData()
+          bodyFormData.append('employee', this.employee)
+          bodyFormData.append('name', this.bank_name)
+          bodyFormData.append('bank', this.bank)
+          bodyFormData.append('agency', this.agency)
+          bodyFormData.append('account', this.account)
+          // let config = {headers: {'Content-Type': 'multipart/form-data'}}
+          if (!this.bank_name) {
+            this.message = 'Favor preencher o nome.'
+            setTimeout(()=>{
+              this.message = ''
+            }, 2000);
+          } else {
+            axios.post('/crm/employee/bank/add/', bodyFormData)
+            .then((response) => {
+              this.banks.push(
+                {
+                  bank_name: this.bank_name,
+                  bank: this.bank,
+                  agency: this.agency,
+                  account: this.account
+                }
+              )
+              this.bank_name = ''
+              this.bank = ''
+              this.agency = ''
+              this.account = ''
+            })
+          }
+        },
+        load_bank(bank) {
+          this.pk = bank.pk
+          this.bank_name = bank.bank_name
+          this.bank = bank.bank
+          this.agency = bank.agency
+          this.account = bank.account
+        },
+        edit_bank(){
+          let bodyFormData = new FormData()
+          bodyFormData.append('employee', this.employee)
+          bodyFormData.append('pk', this.pk)
+          bodyFormData.append('bank_name', this.bank_name)
+          bodyFormData.append('bank', this.bank)
+          bodyFormData.append('agency', this.agency)
+          bodyFormData.append('account', this.account)
+          axios.post('/crm/employee/bank/' + this.pk + '/edit/', bodyFormData)
+          .then((response) => {
+            // Da pra melhorar
+            console.log(response.data);
+            this.banks = response.data.map((item) => {
+              return {
+                pk: item.pk,
+                bank_name: item.fields.name,
+                bank: item.fields.bank,
+                agency: item.fields.agency,
+                account: item.fields.account
+              }
+            })
+          })
+        },
+        remove: function(contact) {
+          axios.post('/crm/employee/contact/' + contact.pk + '/delete/')
+          .then((response) => {
+            let idx = this.contacts.indexOf(contact)
+            this.contacts.splice(idx, 1)
+          })
+        },
+        remove_phone: function(phone) {
+          axios.post('/crm/employee/phone/' + phone.pk + '/delete/')
+          .then((response) => {
+            let idx = this.phones.indexOf(phone)
+            this.phones.splice(idx, 1)
+          })
+        },
+        remove_bank: function(bank) {
+          axios.post('/crm/employee/bank/' + bank.pk + '/delete/')
+          .then((response) => {
+            let idx = this.banks.indexOf(bank)
+            this.banks.splice(idx, 1)
+          })
+        }
+      },
+      mounted(){
+        // this.employee = this.$el.getAttribute('data-pk')
+        this.employee = window.location.pathname.match("[0-9]")[0]
+        this.get_contacts(this.employee)
+        this.get_phones(this.employee)
+        this.get_banks(this.employee)
+      }
+    })
+  </script>
+
+{% endblock js %}

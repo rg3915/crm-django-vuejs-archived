@@ -1,0 +1,13 @@
+.span-is-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+.span-color-link {
+  color: #20a8d8;
+}
+.ok {
+  color: green;
+}
+.no {
+  color: red;
+}

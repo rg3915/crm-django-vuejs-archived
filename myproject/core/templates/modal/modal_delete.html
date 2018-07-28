@@ -1,0 +1,28 @@
+<!-- ModalDelete -->
+<div class="modal fade" id="ModalDelete" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">
+          Deletar
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+      </div>
+      <div class="modal-body">
+          Deseja deletar <span id="span-modal">{{ object }}</span>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          Fechar
+        </button>
+        <a id="a-modal" href="{{ object.delete_url }}">
+          <button type="button" class="btn btn-danger">
+            Deletar
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,643 @@
+{% extends "base.html" %}
+{% load static %}
+{% load usergroup_tags %}
+
+{% block title %}
+  | Financeiro
+{% endblock title %}
+
+{% block breadcrumb %}
+  <!-- { include "includes/breadcrumb.html" %} -->
+{% endblock breadcrumb %}
+
+{% block content %}
+
+<style>
+  .icon {
+    margin-right: 7px;
+  }
+  .icon i {
+    cursor: pointer;
+  }
+</style>
+
+<div id="app" class="row">
+  <div class="col-md-12" style="padding: 0 0 15px 0">
+    <div class="card">
+      <div class="card-header">
+        Financeiro
+      </div>
+      <div class="card-body" style="padding: 20px 0 20px 0">
+        <div class="col-sm-12">
+          <div class="row pd-20">
+            <!-- { if not request.user|has_group:"simpleuser" %} -->
+              <!-- <div class="col-md-2">
+                <a href="" class="btn btn-success btn-block" style="margin: 0 0 5px 15px">
+                  <i class="fa fa-plus-square" aria-hidden="true"></i>
+                  <span>Adicionar</span>
+                </a>
+              </div> -->
+            <!-- { endif %} -->
+            <div class="">
+              <!-- { include "includes/search.html" %} -->
+              <!-- <input type="text" class="search form-control" placeholder="Buscar"> -->
+            </div>
+          </div>
+
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active"
+                  id="tab1"
+                  data-toggle="tab"
+                  href="#nav1"
+                  role="tab"
+                  aria-controls="nav1"
+                  aria-selected="true"
+                  >Recebimentos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"
+                  id="tab2"
+                  data-toggle="tab"
+                  href="#nav2"
+                  role="tab"
+                  aria-controls="nav2"
+                  aria-selected="false"
+                  >Despesas fixas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"
+                  id="tab3"
+                  data-toggle="tab"
+                  href="#nav3"
+                  role="tab"
+                  aria-controls="nav3"
+                  aria-selected="false"
+                  >Despesas variáveis</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"
+                  id="tab5"
+                  data-toggle="tab"
+                  href="#nav5"
+                  role="tab"
+                  aria-controls="nav5"
+                  aria-selected="false"
+                  >Impostos</a>
+            </li>
+          </ul>
+
+          <div class="tab-content" id="navTabContent">
+            <!-- nav1 -->
+            <div class="tab-pane show active" id="nav1" role="tabpanel" aria-labelledby="tab1">
+
+              <table id="table" class="table table-responsive-sm table-bordered table-striped">
+                <thead class="thead-light">
+                  <tr>
+                    <th colspan="6" class="text-right"><b>Total Pago</b></th>
+                    <th colspan="4"><b>R$ ${ formatPrice(total) }</b></th>
+                  </tr>
+                  <tr>
+                    <th colspan="6" class="text-right"><b>Total a receber</b></th>
+                    <th colspan="4"><b>R$ ${ formatPrice(total) }</b></th>
+                  </tr>
+                  <tr>
+                    <th></th>
+                    <th v-for="header in headers">${ header.text }</th>
+                    <th><i class="fa fa-plus fa-2x" style="color: green" @click="addRow()"></i></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in rows">
+                    <td></td>
+                    <td>
+                      <div class="form-group">
+                        <vuejs-datepicker name="payment_date" v-model="row.payment_date" :format="customFormatter" :highlighted="state.highlighted"></vuejs-datepicker>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        <select id="id_paying_source" name="paying_source" v-model="row.paying_source" class="form-control">
+                          <option :value="paying.pk" v-for="paying in paying_source" >${ paying.name }</option>
+                        </select>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        <select id="id_type_expense" name="type_expense" v-model="row.type_expense" class="form-control">
+                          <option :value="item.pk" v-for="item in type_expense" >${ item.title }</option>
+                        </select>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        <input id="id_description" name="description" v-model="row.description" type="text" class="form-control" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        <select id="id_cost_center" name="cost_center" v-model="row.cost_center" class="form-control">
+                          <option :value="item.pk" v-for="item in cost_center" >${ item.social_name }</option>
+                        </select>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        <input id="id_value" name="value" v-model="row.value" type="text" class="form-control" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                        À vista
+                        <input id="id_payment" name="payment" v-model="row.payment" type="hidden" class="form-control" />
+                        <!-- <select id="id_payment" name="payment" v-model="row.payment" class="form-control">
+                          <option value="0">À vista</option>
+                          <option value="1">Criar parcelas</option>
+                          <option value="2">Repetir transação</option>
+                        </select> -->
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group">
+                       <label class="switch switch-default switch-pill switch-primary-outline-alt">
+                        <input id="id_paid" name="paid" type="checkbox" class="switch-input" v-model="row.paid">
+                        <span class="switch-label"></span>
+                        <span class="switch-handle"></span>
+                      </div>
+                    </td>
+                    <td>
+                      <span @click="add()">
+                        <i class="fa fa-check-square fa-2x" style="color: green"></i>
+                      </span>
+                    </td>
+
+
+                  </tr>
+                  <tr v-for="receipt in receipts" :key="receipt.id">
+                    <template v-if="editId == receipt.id">
+                      <td></td>
+                      <td>
+                        <div class="form-group">
+                          <vuejs-datepicker v-model="editReceiptData.payment_date" :format="customFormatter"></vuejs-datepicker>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-group">
+                          <select id="id_paying_source" name="paying_source" v-model="editReceiptData.paying_source" class="form-control">
+                            <option :value="paying.pk" :active="receipt.paying_source == paying.pk" v-for="paying in paying_source" >${ paying.name }</option>
+                          </select>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-group">
+                          <select id="id_type_expense" name="type_expense" v-model="editReceiptData.type_expense" class="form-control">
+                            <option :value="item.pk" :active="receipt.type_expense == item.pk" v-for="item in type_expense" >${ item.title }</option>
+                          </select>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-group">
+                          <input v-model="editReceiptData.description" type="text" class="form-control" />
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-group">
+                          <select id="id_cost_center" name="cost_center" v-model="editReceiptData.cost_center" class="form-control">
+                            <option :value="item.pk" :active="receipt.cost_center == item.pk" v-for="item in cost_center" >${ item.social_name }</option>
+                          </select>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-group">
+                          <input v-model="editReceiptData.value" type="text" class="form-control" />
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-group">
+                          À vista
+                        </div>
+                      </td>
+                      <td>
+                        <label class="switch switch-default switch-pill switch-primary-outline-alt">
+                          <input type="checkbox" class="switch-input" v-model="receipt.paid">
+                          <span class="switch-label"></span>
+                          <span class="switch-handle"></span>
+                        </label>
+                      </td>
+                      <td>
+                        <span class="icon ok" @click="editSubmit(receipt.id)"><i class="fa fa-check"></i></span>
+                        <span class="icon no"><i class="fa fa-ban"></i></span>
+                      </td>
+                    </template>
+                    <template v-else>
+                      <td></td>
+                      <!-- aqui -->
+                      <td>${ customFormatter(receipt.payment_date) }</td>
+                      <td>${ receipt.paying_source_name }</td>
+                      <td>${ receipt.type_expense_title }</td>
+                      <td>${ receipt.description }</td>
+                      <td>${ receipt.cost_center_name }</td>
+                      <td style="min-width: 100px">R$ ${ formatPrice(receipt.value) }</td>
+                      <td>${ receipt.payment?'À vista':'Parcelado' }</td>
+                      <td>
+                        <label class="switch switch-default switch-pill switch-primary-outline-alt">
+                          <input type="checkbox" class="switch-input" v-model="receipt.paid">
+                          <span class="switch-label"></span>
+                          <span class="switch-handle"></span>
+                        </label>
+                      </td>
+                      <td>
+                        <span>
+                          <!-- <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-chevron-down"></i>
+                          </a> -->
+                        </span>
+                        <ul class="nav">
+                          <li class="nav-item dropdown">
+                            <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                              <i class="fa fa-chevron-down"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                              <!-- <a class="dropdown-item" href="#">Duplicar</a> -->
+                              <span class="dropdown-item" style="cursor:pointer" @click="edit(receipt)"><i class="fa fa-edit" style="color:#20a8d8"></i> Editar</span>
+                              <span class="dropdown-item" style="cursor:pointer" @click="remove(receipt)"><i class="fa fa-close" style="color:red"></i> Excluir</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </td>
+                    </template>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="6" class="text-right"><b>Total Pago</b></td>
+                    <td colspan="4"><b>R$ ${ formatPrice(total) }</b></td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" class="text-right"><b>Total a receber</b></td>
+                    <td colspan="4"><b>R$ ${ formatPrice(total) }</b></td>
+                  </tr>
+                </tfoot>
+              </table>
+
+            </div>
+            <!-- nav2 -->
+            <div class="tab-pane" id="nav2" role="tabpanel" aria-labelledby="tab2">
+
+              <table id="table" class="table table-responsive-sm table-bordered table-striped">
+                <thead class="thead-light">
+                  <tr>
+                    <th></th>
+                    <th v-for="header in headers_expenses_fixed">${ header.text }</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="expense in expenses_fixed">
+                    <td></td>
+                    <td>${ expense.receipt_date }</td>
+                    <td>${ expense.paying }</td>
+                    <td>${ expense.category }</td>
+                    <td>${ expense.description }</td>
+                    <td>${ expense.received }</td>
+                    <td>${ expense.receipt_date }</td>
+                    <td>${ expense.value }</td>
+                    <td>${ expense.payment }</td>
+                    <td>${ expense.paid }</td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+            <!-- nav3 -->
+            <div class="tab-pane" id="nav3" role="tabpanel" aria-labelledby="tab3">
+
+              <table id="table" class="table table-responsive-sm table-bordered table-striped">
+                <thead class="thead-light">
+                  <tr>
+                    <th></th>
+                    <th v-for="header in headers_expenses_fixed">${ header.text }</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="expense in expenses_variable">
+                    <td></td>
+                    <td>${ expense.receipt_date }</td>
+                    <td>${ expense.paying }</td>
+                    <td>${ expense.category }</td>
+                    <td>${ expense.description }</td>
+                    <td>${ expense.received }</td>
+                    <td>${ expense.receipt_date }</td>
+                    <td>${ expense.value }</td>
+                    <td>${ expense.payment }</td>
+                    <td>${ expense.paid }</td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+            <!-- nav5 -->
+            <div class="tab-pane" id="nav5" role="tabpanel" aria-labelledby="tab5">
+
+              <table id="table" class="table table-responsive-sm table-bordered table-striped">
+                <thead class="thead-light">
+                  <tr>
+                    <th></th>
+                    <th v-for="header in headers_expenses_fixed">${ header.text }</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="expense in expenses_taxes">
+                    <td></td>
+                    <td>${ expense.receipt_date }</td>
+                    <td>${ expense.paying }</td>
+                    <td>${ expense.category }</td>
+                    <td>${ expense.description }</td>
+                    <td>${ expense.received }</td>
+                    <td>${ expense.receipt_date }</td>
+                    <td>${ expense.value }</td>
+                    <td>${ expense.payment }</td>
+                    <td>${ expense.paid }</td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+
+<script>
+  $(document).ready(function() {
+    window.onload = function() {
+      $('#foot_btn').click();
+    }
+  });
+</script>
+
+<script src="{% static 'js/data.js' %}"></script>
+
+<script>
+  var app = new Vue({
+    el: '#app',
+    delimiters: ['${', '}'],
+    // https://github.com/charliekassel/vuejs-datepicker
+    components: {
+        vuejsDatepicker
+    //   autocomplete: Autocomplete
+    },
+    data: {
+      headers: [
+        {text: 'Data'},
+        {text: 'Quem pagou?'},
+        {text: 'Categoria'},
+        {text: 'Descrição'},
+        {text: 'Recebido de'},
+        {text: 'Valor'},
+        {text: 'Pagamento'},
+        {text: 'Pago?'},
+      ],
+      headers_expenses_fixed: [
+        {text: 'Data de Pagto'},
+        {text: 'Quem pagou?'},
+        {text: 'Categoria'},
+        {text: 'Descrição'},
+        {text: 'Pago a'},
+        {text: 'Data de Vencimento'},
+        {text: 'Valor'},
+        {text: 'Pagamento'},
+        {text: 'Pago?'},
+      ],
+      state: {
+        highlighted: {
+          dates: [
+            new Date()
+          ],
+          includeDisabled: true
+        }
+      },
+      editId: '',
+      editReceiptData: {
+        id: '',
+        payment_date: '',
+        expiration_date: '',
+        paying_source: '',
+        type_expense: '',
+        description: '',
+        cost_center: '',
+        value: '',
+        payment: '',
+        paid: '',
+      },
+      rows: [],
+      receipts: [],
+      expenses_fixed: [],
+      expenses_variable: [],
+      expenses_person: [],
+      expenses_taxes: [],
+      paying_source: [],
+      type_expense: [],
+      cost_center: [],
+    },
+    methods: {
+      res(item){
+        return {
+            id: item.id,
+            receipt_date: item.receipt_date,
+            paying: item.paying,
+            category: item.category,
+            description: item.description,
+            received: item.received,
+            value: item.value,
+            payment: item.payment,
+            paid: item.paid,
+          }
+      },
+      result(item){
+        return {
+            id: item.id,
+            payment_date: item.payment_date,
+            expiration_date: item.expiration_date,
+            paying_source: item.paying_source.pk,
+            paying_source_name: item.paying_source.name,
+            type_expense: item.type_expense.pk,
+            type_expense_title: item.type_expense.title,
+            description: item.description,
+            cost_center: item.cost_center.pk,
+            cost_center_name: item.cost_center.name,
+            value: item.value,
+            payment: item.payment,
+            paid: item.paid,
+          }
+      },
+      get_receipts(){
+        // this.receipts = receipts.map((item) => {
+        //   return this.res(item)
+        // })
+        axios.get('/financial/financial/receipts/')
+        .then((result) => {
+          this.receipts = result.data.data.map((item) => {
+            return this.result(item)
+          })
+        })
+
+      },
+      get_expenses_fixed(){
+        this.expenses_fixed = expenses_fixed.map((item) => {
+          return this.res(item)
+        })
+      },
+      get_expenses_variable(){
+        this.expenses_variable = expenses_variable.map((item) => {
+          return this.res(item)
+        })
+      },
+      get_expenses_person(){
+        this.expenses_person = expenses_person.map((item) => {
+          return this.res(item)
+        })
+      },
+      get_expenses_taxes(){
+        this.expenses_taxes = expenses_taxes.map((item) => {
+          return this.res(item)
+        })
+      },
+      get_paying_source(){
+        axios.get('/financial/financial/paying_source/')
+        .then((result) => {
+          this.paying_source = result.data.data.map((item) => {
+            return {
+              pk: item.pk,
+              name: item.name
+            }
+          })
+        })
+      },
+      get_type_expense(){
+        axios.get('/financial/financial/type_expense/')
+        .then((result) => {
+          this.type_expense = result.data.data.map((item) => {
+            return {
+              pk: item.pk,
+              title: item.title
+            }
+          })
+        })
+      },
+      get_cost_center(){
+        axios.get('/financial/financial/cost_center/')
+        .then((result) => {
+          this.cost_center = result.data.data.map((item) => {
+            return {
+              pk: item.pk,
+              social_name: item.social_name
+            }
+          })
+        })
+      },
+      clear_fields: function(){
+        this.editId = ''
+        this.editReceiptData.id = ''
+        this.editReceiptData.receipt_date = ''
+        this.editReceiptData.paying = ''
+        this.editReceiptData.category = ''
+        this.editReceiptData.description = ''
+        this.editReceiptData.received = ''
+        this.editReceiptData.value = ''
+        this.editReceiptData.payment = ''
+        this.editReceiptData.paid = ''
+      },
+      add: function() {
+        this.receipts.unshift(
+          {
+            payment_date: this.rows[0].payment_date,
+            paying_source: this.rows[0].paying_source,
+            type_expense: this.rows[0].type_expense,
+            description: this.rows[0].description,
+            cost_center: this.rows[0].cost_center,
+            value: this.customFloat(this.rows[0].value),
+            // payment: this.rows[0].payment,
+            payment: '0', /* default value */
+            paid: this.rows[0].paid,
+          }
+        )
+        this.rows.pop()
+      },
+      edit: function(receipt) {
+        this.rows.pop()
+        // https://github.com/waseembarcha/vuejs-crud/blob/master/src/components/Products.vue
+        this.editId = receipt.id
+        this.editReceiptData.payment_date = receipt.payment_date
+        this.editReceiptData.paying_source = receipt.paying_source
+        this.editReceiptData.type_expense = receipt.type_expense
+        this.editReceiptData.description = receipt.description
+        this.editReceiptData.cost_center = receipt.cost_center
+        this.editReceiptData.value = receipt.value
+        this.editReceiptData.payment = receipt.payment
+        this.editReceiptData.paid = receipt.paid
+      },
+      editSubmit: function(receipt) {
+        // let bodyFormData = new FormData()
+        // bodyFormData.append('employee', this.employee)
+        // bodyFormData.append('pk', this.pk)
+        // bodyFormData.append('name', this.name)
+        // bodyFormData.append('email', this.email)
+        // bodyFormData.append('phone', this.phone)
+        // axios.post('/crm/employee/contact/' + this.pk + '/edit/', bodyFormData)
+        // .then((response) => {
+        //   // Da pra melhorar
+        //   this.contacts = response.data.map((item) => {
+        //     return {pk: item.pk, name: item.fields.name, email: item.fields.email, phone: item.fields.phone}
+        //   })
+        // })
+        this.clear_fields()
+      },
+      remove: function(receipt) {
+        var idx = this.receipts.indexOf(receipt)
+        this.receipts.splice(idx, 1)
+      },
+      addRow: function() {
+        if (this.rows.length == 0){
+          this.clear_fields()
+          this.rows.push({})
+        }
+      },
+      customFormatter(date) {
+        return moment(date).format('DD/MM/YY');
+      },
+      customFloat(value) {
+        if (!value) {return 0}
+        return parseFloat(value.replace(',', '.'))
+      },
+      formatPrice(value) {
+        let val = (value/1).toFixed(2).replace('.', ',')
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+      }
+    },
+    computed: {
+      total: function () {
+        return this.receipts.reduce((total, item) => total + parseFloat(item.value), 0)
+      }
+    },
+    mounted() {
+      this.get_receipts()
+      this.get_expenses_fixed()
+      this.get_expenses_variable()
+      this.get_expenses_person()
+      this.get_expenses_taxes()
+      this.get_paying_source()
+      this.get_type_expense()
+      this.get_cost_center()
+    }
+  })
+
+</script>
+
+{% endblock js %}

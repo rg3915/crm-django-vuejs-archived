@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}
+  Clientes
+{% endblock title %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        Cadastrar
+      </div>
+      <div class="card-body">
+        <div class="col-sm-6">
+          {% if modelname == 'Company' %}
+            <a href="{% url 'crm:company_pf_add' %}" class="btn btn-sm btn-primary">Pessoa Física</a>
+            <a href="{% url 'crm:company_pj_add' %}" class="btn btn-sm btn-warning">Pessoa Jurídica</a>
+          {% else %}
+            <a href="{% url 'crm:provider_pf_add' %}" class="btn btn-sm btn-primary">Pessoa Física</a>
+            <a href="{% url 'crm:provider_pj_add' %}" class="btn btn-sm btn-warning">Pessoa Jurídica</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

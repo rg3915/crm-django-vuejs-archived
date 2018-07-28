@@ -1,0 +1,392 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- Tirar o content daqui -->
+{% endblock content %}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          Proposta &amp; Horários
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="callout callout-info">
+                    <small class="text-muted">Proposta</small>
+                    <br>
+                    <strong class="h4">0</strong>
+                    <div class="chart-wrapper">
+                      <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--/.row-->
+              <hr class="mt-0">
+            </div>
+            <!--/.col-->
+            <div class="col-sm-6">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="callout callout-warning">
+                    <small class="text-muted">Horários</small>
+                    <br>
+                    <strong class="h4">0</strong>
+                    <div class="chart-wrapper">
+                      <canvas id="sparkline-chart-3" width="100" height="30"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--/.row-->
+              <hr class="mt-0">
+            </div>
+            <!--/.col-->
+          </div>
+          <!--/.row-->
+          <br/>
+          <div class="row">
+            <div class="col-sm-6">
+              <!-- <table class="table table-responsive-sm table-hover table-outline mb-0">
+                <thead class="thead-light">
+                  <tr>
+                    <th>Cliente</th>
+                    <th>Proposta</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div>Yiorgos Avraamu</div>
+                      <div class="small text-muted">
+                        yiorgos@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>270/18.LO</strong>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>Avram Tarasios</div>
+                      <div class="small text-muted">
+                        avram@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>250/18.LO</strong>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>Quintin Ed</div>
+                      <div class="small text-muted">
+                        quintin@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>280/18.LO</strong>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>Enéas Kwadwo</div>
+                      <div class="small text-muted">
+                        eneas@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>314/18.LO</strong>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>Agapetus Tadeáš</div>
+                      <div class="small text-muted">
+                        agapetus@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>222/18.LO</strong>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>Friderik Dávid</div>
+                      <div class="small text-muted">
+                        friderik@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>500/18.LO</strong>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table> -->
+              <p class="text-center alert alert-warning">Sem itens na lista.</p><!--  <a href="">Cadastrar</a></p> -->
+            </div>
+            <div class="col-sm-6">
+              <!-- <table class="table table-responsive-sm table-hover table-outline mb-0">
+                <thead class="thead-light">
+                  <tr>
+                    <th>Cliente</th>
+                    <th>Horários</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div>Yiorgos Avraamu</div>
+                      <div class="small text-muted">
+                        yiorgos@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>27</strong>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>Avram Tarasios</div>
+                      <div class="small text-muted">
+                        avram@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>50</strong>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>Quintin Ed</div>
+                      <div class="small text-muted">
+                        quintin@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>8</strong>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>Enéas Kwadwo</div>
+                      <div class="small text-muted">
+                        eneas@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>12</strong>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>Agapetus Tadeáš</div>
+                      <div class="small text-muted">
+                        agapetus@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>42</strong>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>Friderik Dávid</div>
+                      <div class="small text-muted">
+                        friderik@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>12</strong>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table> -->
+              <p class="text-center alert alert-warning">Sem itens na lista.</p><!--  <a href="">Cadastrar</a></p> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <!-- Next Contracts to Closer -->
+          Próximos Contratos a serem Fechados
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="callout callout-info">
+                    <small class="text-muted">Contratos</small>
+                    <br>
+                    <strong class="h4">0</strong>
+                    <div class="chart-wrapper">
+                      <canvas id="sparkline-chart-1" width="100" height="30"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <!--/.col-->
+              </div>
+              <!--/.row-->
+              <hr class="mt-0">
+            </div>
+            <!--/.col-->
+          </div>
+          <!--/.row-->
+          <br/>
+          <div class="row">
+            <div class="col-sm-12">
+              <!-- <table class="table table-responsive-sm table-hover table-outline mb-0">
+                <thead class="thead-light">
+                  <tr>
+                    <th>Cliente</th>
+                    <th>Contrato</th>
+                    <th><span class="pull-right">Data</span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div>Yiorgos Avraamu</div>
+                      <div class="small text-muted">
+                        yiorgos@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>270/18.LO</strong>
+                      </div>
+                    </td>
+                    <td><span class="pull-right">15/08/2018</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>Avram Tarasios</div>
+                      <div class="small text-muted">
+                        avram@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>250/18.LO</strong>
+                      </div>
+                    </td>
+                    <td><span class="pull-right">15/08/2018</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>Quintin Ed</div>
+                      <div class="small text-muted">
+                        quintin@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>280/18.LO</strong>
+                      </div>
+                    </td>
+                    <td><span class="pull-right">15/08/2018</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>Enéas Kwadwo</div>
+                      <div class="small text-muted">
+                        eneas@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>314/18.LO</strong>
+                      </div>
+                    </td>
+                    <td><span class="pull-right">15/08/2018</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>Agapetus Tadeáš</div>
+                      <div class="small text-muted">
+                        agapetus@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>222/18.LO</strong>
+                      </div>
+                    </td>
+                    <td><span class="pull-right">15/08/2018</span></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>Friderik Dávid</div>
+                      <div class="small text-muted">
+                        friderik@email.com
+                      </div>
+                    </td>
+                    <td>
+                      <!-- <div class="small text-muted">Last login</div>
+                      <div class="text-muted">
+                        <strong>500/18.LO</strong>
+                      </div>
+                    </td>
+                    <td><span class="pull-right">15/08/2018</span></td>
+                  </tr>
+                </tbody>
+              </table> -->
+              <p class="text-center alert alert-warning">Sem itens na lista.</p><!--  <a href="">Cadastrar</a></p> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ endblock content %}

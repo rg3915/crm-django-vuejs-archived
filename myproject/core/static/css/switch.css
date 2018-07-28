@@ -1,0 +1,784 @@
+.switch-default {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 24px;
+  vertical-align: top;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.switch-default .switch-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.switch-default .switch-label {
+  position: relative;
+  display: block;
+  height: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #fff;
+  border: 1px solid #c8ced3;
+  border-radius: 2px;
+  transition: opacity background .15s ease-out;
+}
+
+.switch-default .switch-input:checked ~ .switch-label::before {
+  opacity: 0;
+}
+
+.switch-default .switch-input:checked ~ .switch-label::after {
+  opacity: 1;
+}
+
+.switch-default .switch-handle {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border: 1px solid #c8ced3;
+  border-radius: 1px;
+  transition: left .15s ease-out;
+}
+
+.switch-default .switch-input:checked ~ .switch-handle {
+  left: 18px;
+}
+
+.switch-default.switch-lg {
+  width: 48px;
+  height: 28px;
+}
+
+.switch-default.switch-lg .switch-label {
+  font-size: 12px;
+}
+
+.switch-default.switch-lg .switch-handle {
+  width: 24px;
+  height: 24px;
+}
+
+.switch-default.switch-lg .switch-input:checked ~ .switch-handle {
+  left: 22px;
+}
+
+.switch-default.switch-sm {
+  width: 32px;
+  height: 20px;
+}
+
+.switch-default.switch-sm .switch-label {
+  font-size: 8px;
+}
+
+.switch-default.switch-sm .switch-handle {
+  width: 16px;
+  height: 16px;
+}
+
+.switch-default.switch-sm .switch-input:checked ~ .switch-handle {
+  left: 14px;
+}
+
+.switch-default.switch-xs {
+  width: 24px;
+  height: 16px;
+}
+
+.switch-default.switch-xs .switch-label {
+  font-size: 7px;
+}
+
+.switch-default.switch-xs .switch-handle {
+  width: 12px;
+  height: 12px;
+}
+
+.switch-default.switch-xs .switch-input:checked ~ .switch-handle {
+  left: 10px;
+}
+
+.switch-text {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+  vertical-align: top;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.switch-text .switch-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.switch-text .switch-label {
+  position: relative;
+  display: block;
+  height: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #fff;
+  border: 1px solid #c8ced3;
+  border-radius: 2px;
+  transition: opacity background .15s ease-out;
+}
+
+.switch-text .switch-label::before,
+.switch-text .switch-label::after {
+  position: absolute;
+  top: 50%;
+  width: 50%;
+  margin-top: -.5em;
+  line-height: 1;
+  text-align: center;
+  transition: inherit;
+}
+
+.switch-text .switch-label::before {
+  right: 1px;
+  color: #e4e7ea;
+  content: attr(data-off);
+}
+
+.switch-text .switch-label::after {
+  left: 1px;
+  color: #fff;
+  content: attr(data-on);
+  opacity: 0;
+}
+
+.switch-text .switch-input:checked ~ .switch-label::before {
+  opacity: 0;
+}
+
+.switch-text .switch-input:checked ~ .switch-label::after {
+  opacity: 1;
+}
+
+.switch-text .switch-handle {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border: 1px solid #c8ced3;
+  border-radius: 1px;
+  transition: left .15s ease-out;
+}
+
+.switch-text .switch-input:checked ~ .switch-handle {
+  left: 26px;
+}
+
+.switch-text.switch-lg {
+  width: 56px;
+  height: 28px;
+}
+
+.switch-text.switch-lg .switch-label {
+  font-size: 12px;
+}
+
+.switch-text.switch-lg .switch-handle {
+  width: 24px;
+  height: 24px;
+}
+
+.switch-text.switch-lg .switch-input:checked ~ .switch-handle {
+  left: 30px;
+}
+
+.switch-text.switch-sm {
+  width: 40px;
+  height: 20px;
+}
+
+.switch-text.switch-sm .switch-label {
+  font-size: 8px;
+}
+
+.switch-text.switch-sm .switch-handle {
+  width: 16px;
+  height: 16px;
+}
+
+.switch-text.switch-sm .switch-input:checked ~ .switch-handle {
+  left: 22px;
+}
+
+.switch-text.switch-xs {
+  width: 32px;
+  height: 16px;
+}
+
+.switch-text.switch-xs .switch-label {
+  font-size: 7px;
+}
+
+.switch-text.switch-xs .switch-handle {
+  width: 12px;
+  height: 12px;
+}
+
+.switch-text.switch-xs .switch-input:checked ~ .switch-handle {
+  left: 18px;
+}
+
+.switch-icon {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+  vertical-align: top;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.switch-icon .switch-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.switch-icon .switch-label {
+  position: relative;
+  display: block;
+  height: inherit;
+  font-family: FontAwesome;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #fff;
+  border: 1px solid #c8ced3;
+  border-radius: 2px;
+  transition: opacity background .15s ease-out;
+}
+
+.switch-icon .switch-label::before,
+.switch-icon .switch-label::after {
+  position: absolute;
+  top: 50%;
+  width: 50%;
+  margin-top: -.5em;
+  line-height: 1;
+  text-align: center;
+  transition: inherit;
+}
+
+.switch-icon .switch-label::before {
+  right: 1px;
+  color: #e4e7ea;
+  content: attr(data-off);
+}
+
+.switch-icon .switch-label::after {
+  left: 1px;
+  color: #fff;
+  content: attr(data-on);
+  opacity: 0;
+}
+
+.switch-icon .switch-input:checked ~ .switch-label::before {
+  opacity: 0;
+}
+
+.switch-icon .switch-input:checked ~ .switch-label::after {
+  opacity: 1;
+}
+
+.switch-icon .switch-handle {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border: 1px solid #c8ced3;
+  border-radius: 1px;
+  transition: left .15s ease-out;
+}
+
+.switch-icon .switch-input:checked ~ .switch-handle {
+  left: 26px;
+}
+
+.switch-icon.switch-lg {
+  width: 56px;
+  height: 28px;
+}
+
+.switch-icon.switch-lg .switch-label {
+  font-size: 12px;
+}
+
+.switch-icon.switch-lg .switch-handle {
+  width: 24px;
+  height: 24px;
+}
+
+.switch-icon.switch-lg .switch-input:checked ~ .switch-handle {
+  left: 30px;
+}
+
+.switch-icon.switch-sm {
+  width: 40px;
+  height: 20px;
+}
+
+.switch-icon.switch-sm .switch-label {
+  font-size: 8px;
+}
+
+.switch-icon.switch-sm .switch-handle {
+  width: 16px;
+  height: 16px;
+}
+
+.switch-icon.switch-sm .switch-input:checked ~ .switch-handle {
+  left: 22px;
+}
+
+.switch-icon.switch-xs {
+  width: 32px;
+  height: 16px;
+}
+
+.switch-icon.switch-xs .switch-label {
+  font-size: 7px;
+}
+
+.switch-icon.switch-xs .switch-handle {
+  width: 12px;
+  height: 12px;
+}
+
+.switch-icon.switch-xs .switch-input:checked ~ .switch-handle {
+  left: 18px;
+}
+
+.switch-3d {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 24px;
+  vertical-align: top;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.switch-3d .switch-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.switch-3d .switch-label {
+  position: relative;
+  display: block;
+  height: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #f0f3f5;
+  border: 1px solid #c8ced3;
+  border-radius: 2px;
+  transition: opacity background .15s ease-out;
+}
+
+.switch-3d .switch-input:checked ~ .switch-label::before {
+  opacity: 0;
+}
+
+.switch-3d .switch-input:checked ~ .switch-label::after {
+  opacity: 1;
+}
+
+.switch-3d .switch-handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  background: #fff;
+  border: 1px solid #c8ced3;
+  border-radius: 1px;
+  transition: left .15s ease-out;
+  border: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.switch-3d .switch-input:checked ~ .switch-handle {
+  left: 16px;
+}
+
+.switch-3d.switch-lg {
+  width: 48px;
+  height: 28px;
+}
+
+.switch-3d.switch-lg .switch-label {
+  font-size: 12px;
+}
+
+.switch-3d.switch-lg .switch-handle {
+  width: 28px;
+  height: 28px;
+}
+
+.switch-3d.switch-lg .switch-input:checked ~ .switch-handle {
+  left: 20px;
+}
+
+.switch-3d.switch-sm {
+  width: 32px;
+  height: 20px;
+}
+
+.switch-3d.switch-sm .switch-label {
+  font-size: 8px;
+}
+
+.switch-3d.switch-sm .switch-handle {
+  width: 20px;
+  height: 20px;
+}
+
+.switch-3d.switch-sm .switch-input:checked ~ .switch-handle {
+  left: 12px;
+}
+
+.switch-3d.switch-xs {
+  width: 24px;
+  height: 16px;
+}
+
+.switch-3d.switch-xs .switch-label {
+  font-size: 7px;
+}
+
+.switch-3d.switch-xs .switch-handle {
+  width: 16px;
+  height: 16px;
+}
+
+.switch-3d.switch-xs .switch-input:checked ~ .switch-handle {
+  left: 8px;
+}
+
+.switch-primary > .switch-input:checked ~ .switch-label {
+  background: #20a8d8;
+  border-color: #1985ac;
+}
+
+.switch-primary > .switch-input:checked ~ .switch-handle {
+  border-color: #1985ac;
+}
+
+.switch-primary-outline > .switch-input:checked ~ .switch-label {
+  background: #fff;
+  border-color: #20a8d8;
+}
+
+.switch-primary-outline > .switch-input:checked ~ .switch-label::after {
+  color: #20a8d8;
+}
+
+.switch-primary-outline > .switch-input:checked ~ .switch-handle {
+  border-color: #20a8d8;
+}
+
+.switch-primary-outline-alt > .switch-input:checked ~ .switch-label {
+  background: #fff;
+  border-color: #20a8d8;
+}
+
+.switch-primary-outline-alt > .switch-input:checked ~ .switch-label::after {
+  color: #20a8d8;
+}
+
+.switch-primary-outline-alt > .switch-input:checked ~ .switch-handle {
+  background: #20a8d8;
+  border-color: #20a8d8;
+}
+
+.switch-secondary > .switch-input:checked ~ .switch-label {
+  background: #c8ced3;
+  border-color: #acb5bc;
+}
+
+.switch-secondary > .switch-input:checked ~ .switch-handle {
+  border-color: #acb5bc;
+}
+
+.switch-secondary-outline > .switch-input:checked ~ .switch-label {
+  background: #fff;
+  border-color: #c8ced3;
+}
+
+.switch-secondary-outline > .switch-input:checked ~ .switch-label::after {
+  color: #c8ced3;
+}
+
+.switch-secondary-outline > .switch-input:checked ~ .switch-handle {
+  border-color: #c8ced3;
+}
+
+.switch-secondary-outline-alt > .switch-input:checked ~ .switch-label {
+  background: #fff;
+  border-color: #c8ced3;
+}
+
+.switch-secondary-outline-alt > .switch-input:checked ~ .switch-label::after {
+  color: #c8ced3;
+}
+
+.switch-secondary-outline-alt > .switch-input:checked ~ .switch-handle {
+  background: #c8ced3;
+  border-color: #c8ced3;
+}
+
+.switch-success > .switch-input:checked ~ .switch-label {
+  background: #4dbd74;
+  border-color: #3a9d5d;
+}
+
+.switch-success > .switch-input:checked ~ .switch-handle {
+  border-color: #3a9d5d;
+}
+
+.switch-success-outline > .switch-input:checked ~ .switch-label {
+  background: #fff;
+  border-color: #4dbd74;
+}
+
+.switch-success-outline > .switch-input:checked ~ .switch-label::after {
+  color: #4dbd74;
+}
+
+.switch-success-outline > .switch-input:checked ~ .switch-handle {
+  border-color: #4dbd74;
+}
+
+.switch-success-outline-alt > .switch-input:checked ~ .switch-label {
+  background: #fff;
+  border-color: #4dbd74;
+}
+
+.switch-success-outline-alt > .switch-input:checked ~ .switch-label::after {
+  color: #4dbd74;
+}
+
+.switch-success-outline-alt > .switch-input:checked ~ .switch-handle {
+  background: #4dbd74;
+  border-color: #4dbd74;
+}
+
+.switch-info > .switch-input:checked ~ .switch-label {
+  background: #63c2de;
+  border-color: #39b2d5;
+}
+
+.switch-info > .switch-input:checked ~ .switch-handle {
+  border-color: #39b2d5;
+}
+
+.switch-info-outline > .switch-input:checked ~ .switch-label {
+  background: #fff;
+  border-color: #63c2de;
+}
+
+.switch-info-outline > .switch-input:checked ~ .switch-label::after {
+  color: #63c2de;
+}
+
+.switch-info-outline > .switch-input:checked ~ .switch-handle {
+  border-color: #63c2de;
+}
+
+.switch-info-outline-alt > .switch-input:checked ~ .switch-label {
+  background: #fff;
+  border-color: #63c2de;
+}
+
+.switch-info-outline-alt > .switch-input:checked ~ .switch-label::after {
+  color: #63c2de;
+}
+
+.switch-info-outline-alt > .switch-input:checked ~ .switch-handle {
+  background: #63c2de;
+  border-color: #63c2de;
+}
+
+.switch-warning > .switch-input:checked ~ .switch-label {
+  background: #ffc107;
+  border-color: #d39e00;
+}
+
+.switch-warning > .switch-input:checked ~ .switch-handle {
+  border-color: #d39e00;
+}
+
+.switch-warning-outline > .switch-input:checked ~ .switch-label {
+  background: #fff;
+  border-color: #ffc107;
+}
+
+.switch-warning-outline > .switch-input:checked ~ .switch-label::after {
+  color: #ffc107;
+}
+
+.switch-warning-outline > .switch-input:checked ~ .switch-handle {
+  border-color: #ffc107;
+}
+
+.switch-warning-outline-alt > .switch-input:checked ~ .switch-label {
+  background: #fff;
+  border-color: #ffc107;
+}
+
+.switch-warning-outline-alt > .switch-input:checked ~ .switch-label::after {
+  color: #ffc107;
+}
+
+.switch-warning-outline-alt > .switch-input:checked ~ .switch-handle {
+  background: #ffc107;
+  border-color: #ffc107;
+}
+
+.switch-danger > .switch-input:checked ~ .switch-label {
+  background: #f86c6b;
+  border-color: #f63c3a;
+}
+
+.switch-danger > .switch-input:checked ~ .switch-handle {
+  border-color: #f63c3a;
+}
+
+.switch-danger-outline > .switch-input:checked ~ .switch-label {
+  background: #fff;
+  border-color: #f86c6b;
+}
+
+.switch-danger-outline > .switch-input:checked ~ .switch-label::after {
+  color: #f86c6b;
+}
+
+.switch-danger-outline > .switch-input:checked ~ .switch-handle {
+  border-color: #f86c6b;
+}
+
+.switch-danger-outline-alt > .switch-input:checked ~ .switch-label {
+  background: #fff;
+  border-color: #f86c6b;
+}
+
+.switch-danger-outline-alt > .switch-input:checked ~ .switch-label::after {
+  color: #f86c6b;
+}
+
+.switch-danger-outline-alt > .switch-input:checked ~ .switch-handle {
+  background: #f86c6b;
+  border-color: #f86c6b;
+}
+
+.switch-light > .switch-input:checked ~ .switch-label {
+  background: #f0f3f5;
+  border-color: #d1dbe1;
+}
+
+.switch-light > .switch-input:checked ~ .switch-handle {
+  border-color: #d1dbe1;
+}
+
+.switch-light-outline > .switch-input:checked ~ .switch-label {
+  background: #fff;
+  border-color: #f0f3f5;
+}
+
+.switch-light-outline > .switch-input:checked ~ .switch-label::after {
+  color: #f0f3f5;
+}
+
+.switch-light-outline > .switch-input:checked ~ .switch-handle {
+  border-color: #f0f3f5;
+}
+
+.switch-light-outline-alt > .switch-input:checked ~ .switch-label {
+  background: #fff;
+  border-color: #f0f3f5;
+}
+
+.switch-light-outline-alt > .switch-input:checked ~ .switch-label::after {
+  color: #f0f3f5;
+}
+
+.switch-light-outline-alt > .switch-input:checked ~ .switch-handle {
+  background: #f0f3f5;
+  border-color: #f0f3f5;
+}
+
+.switch-dark > .switch-input:checked ~ .switch-label {
+  background: #2f353a;
+  border-color: #181b1e;
+}
+
+.switch-dark > .switch-input:checked ~ .switch-handle {
+  border-color: #181b1e;
+}
+
+.switch-dark-outline > .switch-input:checked ~ .switch-label {
+  background: #fff;
+  border-color: #2f353a;
+}
+
+.switch-dark-outline > .switch-input:checked ~ .switch-label::after {
+  color: #2f353a;
+}
+
+.switch-dark-outline > .switch-input:checked ~ .switch-handle {
+  border-color: #2f353a;
+}
+
+.switch-dark-outline-alt > .switch-input:checked ~ .switch-label {
+  background: #fff;
+  border-color: #2f353a;
+}
+
+.switch-dark-outline-alt > .switch-input:checked ~ .switch-label::after {
+  color: #2f353a;
+}
+
+.switch-dark-outline-alt > .switch-input:checked ~ .switch-handle {
+  background: #2f353a;
+  border-color: #2f353a;
+}
+
+.switch-pill .switch-label, .switch-3d .switch-label,
+.switch-pill .switch-handle,
+.switch-3d .switch-handle {
+  border-radius: 50em;
+}
+
+.switch-pill .switch-label::before, .switch-3d .switch-label::before {
+  right: 2px;
+}
+
+.switch-pill .switch-label::after, .switch-3d .switch-label::after {
+  left: 2px;
+}

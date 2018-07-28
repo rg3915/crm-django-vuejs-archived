@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}
+  Configurações
+{% endblock title %}
+
+{% block breadcrumb %}
+  {% include "includes/breadcrumb.html" %}
+{% endblock breadcrumb %}
+
+{% block content %}
+
+<div class="row">
+
+   <div class="col-md-12">
+
+     <div class="card">
+       <div class="card-header">
+         Editando: USER1
+       </div>
+
+       <div class="card-body">
+         <div class="col-sm-6">
+           <div class="col-md-10">
+
+              <form class="form table-responsive" action="" method="POST">
+                <table class="col">
+                  {% csrf_token %}
+
+                   {% comment %}
+                     for xxx
+                   {% endcomment %}
+                    <tbody>
+                      <td align="center">
+                        <div class="form-group">
+                          <label class="switch switch-pill switch-primary">
+                            <input type="checkbox" class="switch-input" checked>
+                            <span class="switch-slider"></span>
+                          </label>
+                        </div>
+                      </td>
+                      <td> Adicionar usuários</td>
+                    </tbody>
+                    <tbody>
+                      <td align="center">
+                        <div class="form-group">
+                          <label class="switch switch-pill switch-primary">
+                            <input type="checkbox" class="switch-input">
+                            <span class="switch-slider"></span>
+                          </label>
+                        </div>
+                      </td>
+                      <td> Deletar Usuários</td>
+                    </tbody>
+                    {% comment %}
+                      endfor
+                    {% endcomment %}
+
+
+                </table>
+                <button class="btn btn-outline-success" type="submit">Atualizar Permissões</button>
+              </form>
+
+            </div>
+           </div>
+         </div>
+
+       </div>
+     </div>
+
+   </div>
+ </div>
+
+
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}

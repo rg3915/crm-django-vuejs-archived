@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Regis Santos">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <link rel="shortcut icon" href="https://vuejs.org/images/logo.png">
+    <title>CRM {% block title %}{% endblock title %}</title>
+    <!-- Icons-->
+    <link href="{% static 'css/flag-icon-css/css/flag-icon.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/simple-line-icons/css/simple-line-icons.css' %}" rel="stylesheet" />
+    <!-- jQuery-UI -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- Datatable -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jq-3.2.1/dt-1.10.16/datatables.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.5/css/select.dataTables.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/coreui@2.0.0-rc.1/dist/css/coreui.min.css">
+    <!-- Main styles for this application-->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/mystyle.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/switch.css' %}" rel="stylesheet" />
+
+    <!-- VueJS -->
+    <script src="https://unpkg.com/vue"></script>
+    <!-- https://github.com/charliekassel/vuejs-datepicker -->
+    <script src="https://unpkg.com/vuejs-datepicker"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js"></script>
+    <!-- vue2-autocomplete -->
+    <!-- <link rel="stylesheet" href="{ static 'vue2-autocomplete.css' %} "> -->
+    <!-- <script src="{ static 'vue2-autocomplete.js' %}"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vuejs-auto-complete@0.6.5/dist/build.min.js"></script> -->
+
+    <!-- axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+
+  </head>
+  <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
+    {% include "includes/nav.html" %}
+    <div class="app-body">
+      {% include "includes/sidebar.html" %}
+      <main class="main">
+        <!-- Breadcrumb-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'core:dashboard' %}">Dashboard</a>
+          </li>
+          <!-- <li class="breadcrumb-item">
+            <a href="">Admin</a>
+          </li> -->
+          {% block breadcrumb %}{% endblock %}
+          <!-- Breadcrumb Menu-->
+          <li class="breadcrumb-menu d-md-down-none">
+            <div class="btn-group" role="group" aria-label="Button group">
+              <!-- <a class="btn" href="">
+                <i class="icon-speech"></i>
+              </a>
+              <a class="btn" href="./">
+                <i class="icon-graph"></i>  Dashboard</a> -->
+              <!-- <a class="btn" href="">
+                <i class="icon-settings"></i>  Settings</a> -->
+            </div>
+          </li>
+        </ol>
+        <div class="container-fluid">
+          <div class="animated fadeIn">
+
+            {% block content %}{% endblock content %}
+
+          </div>
+
+        </div>
+      </main>
+      {% include "includes/aside-menu.html" %}
+    </div>
+    {% include "includes/footer.html" %}
+    <!-- Bootstrap and necessary plugins-->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script> -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{% static 'js/jquery.maskedinput.js' %}"></script>
+    <script src="{% static 'js/ui.datepicker-pt-BR.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/pace.min.js' %}"></script>
+    <script src="{% static 'js/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'js/coreui.min.js' %}"></script>
+    <!-- Datatable -->
+    <!-- <script src="https://cdn.datatables.net/v/bs4/jq-3.2.1/dt-1.10.16/sl-1.2.5/datatables.min.js"></script> -->
+    <!-- <script src="https://cdn.datatables.net/select/1.2.5/js/dataTables.select.min.js"></script> -->
+    <!-- Plugins and scripts required by this view-->
+    <!-- <script src="{% static 'js/custom-tooltips.min.js' %}"></script> -->
+    <!-- <script src="{% static 'js/main.js' %}"></script> -->
+
+    {% block js %}{% endblock %}
+  </body>
+</html>

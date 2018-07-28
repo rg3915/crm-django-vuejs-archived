@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% load static %}
+{% load usergroup_tags %}
+
+{% block title %}
+  | Funcionários
+{% endblock title %}
+
+{% block breadcrumb %}
+  {% include "includes/breadcrumb.html" %}
+{% endblock breadcrumb %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        Funcionários
+      </div>
+      <div class="card-body">
+        <div class="col-sm-12">
+          <div class="row pd-20">
+            {% if not request.user|has_group:"simpleuser" %}
+              <div class="col-md-2">
+                <a href="{% url 'crm:employee_add' %}" class="btn btn-success btn-block" style="margin: 0 0 5px 15px">
+                  <i class="fa fa-plus-square" aria-hidden="true"></i>
+                  <span>Adicionar</span>
+                </a>
+              </div>
+            {% endif %}
+            <div class="">
+              <!-- { include "includes/search.html" %} -->
+              <!-- <input type="text" class="search form-control" placeholder="Buscar"> -->
+            </div>
+          </div>
+          <table id="table" class="table table-responsive-sm table-bordered table-striped">
+            <thead class="thead-light">
+              <tr>
+                <th></th>
+                <th>Foto</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Telefone</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for object in object_list %}
+                <tr>
+                  <td></td>
+                  <td>
+                    {% if object.photo %}
+                      <img src="{{ object.photo.url }}" alt="{{ object.photo.url }}" style="height:40px; width: auto;"></td>
+                    {% endif %}
+                  <td><a href="{{ object.get_absolute_url }}">{{ object }}</a></td>
+                  <td>{{ object.email }}</td>
+                  <td>{{ object.employee_phone_first.phone }}</td>
+                  <td>
+                    {% if object.active %}
+                      <span class="badge badge-success">Ativo</span>
+                    {% else %}
+                      <span class="badge badge-secondary">Inativo</span>
+                    {% endif %}
+                    {% if not request.user|has_group:"simpleuser" %}
+                      <div class="pull-right">
+                        <a href="{{ object.update_url }}" class="btn btn-sm" title="Editar">
+                          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </a>
+                        <a href="#ModalDelete" class="btn btn-sm object-delete" role="button" data-toggle="modal" data-object="{{ object }}" data-url="{{ object.delete_url }}" title="Apagar">
+                          <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                      </div>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+              <!-- <tr>
+                <td></td>
+                <td>Vishnu Serghei</td>
+                <td>vishnu.serghei@email.com</td>
+                <td>11 98765-4321</td>
+                <td>
+                  <span class="badge badge-success">Active</span>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Zbyněk Phoibos</td>
+                <td>zbynek.phoibos@email.com</td>
+                <td>11 98765-4321</td>
+                <td>
+                  <span class="badge badge-danger">Banned</span>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Einar Randall</td>
+                <td>einar.randall@email.com</td>
+                <td>11 98765-4321</td>
+                <td>
+                  <span class="badge badge-secondary">Inactive</span>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Félix Troels</td>
+                <td>felix.troels@email.com</td>
+                <td>11 98765-4321</td>
+                <td>
+                  <span class="badge badge-warning">Pending</span>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Aulus Agmundr</td>
+                <td>aulus.agmundr@email.com</td>
+                <td>11 98765-4321</td>
+                <td>
+                  <span class="badge badge-success">Active</span>
+                </td>
+              </tr> -->
+            </tbody>
+          </table>
+          <!-- <nav>
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link" href="#">Prev</a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">2</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">3</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">4</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+              </li>
+            </ul>
+          </nav> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include "modal/modal_delete.html" %}
+
+{% endblock content %}
+
+{% block js %}
+
+<script src="{% static 'js/modal.js' %}"></script>
+
+<script>
+  $(document).ready(function() {
+    // $('#table').DataTable({
+    //   language: {
+    //     "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Portuguese-Brasil.json"
+    //   },
+    //   columnDefs: [{
+    //     orderable: false,
+    //     className: 'select-checkbox',
+    //     targets: 0
+    //   }],
+    //   select: {
+    //     style: 'os',
+    //     selector: 'td:first-child'
+    //   },
+    //   order: [[ 1, 'asc' ]]
+    // });
+  });
+  // function filter(element, selector) {
+  //   var value = $(element).val().toUpperCase();
+  //   $(selector +" tr").each(function () {
+  //     if ($(this).text().toUpperCase().indexOf(value)> -1) {
+  //       $(this).show();
+  //     } else {
+  //       $(this).hide();
+  //     }
+  //   });
+  // }
+
+  // $('.search').keyup(function(){
+  //   filter(this, '#table');
+  // })
+</script>
+
+{% endblock js %}
