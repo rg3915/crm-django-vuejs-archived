@@ -16,11 +16,11 @@ export default new Vuex.Store ({
     }
   },
   actions: {
-    increment(obj){
-      obj.commit('increment')
+    increment({ commit }){
+      commit('increment')
     },
-    decrement(obj){
-      obj.commit('decrement')
+    decrement({ commit }){
+      commit('decrement')
     },
   }
 })
