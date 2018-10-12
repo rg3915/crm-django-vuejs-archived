@@ -107,7 +107,7 @@ class BankAccountBase(Active):
 
 class Company(TimeStampedModel, Address, Document, Active):
     # Razão Social
-    social_name = models.CharField('razão social', max_length=100)
+    social_name = models.CharField('razão social', max_length=100, unique=True)
     # Nome Fantasia
     name = models.CharField(
         'nome fantasia',
@@ -116,7 +116,7 @@ class Company(TimeStampedModel, Address, Document, Active):
         blank=True
     )
     email = models.EmailField(null=True, blank=True)
-    slug = models.SlugField()
+    slug = models.SlugField(max_length=100)
     info = models.TextField('informações', null=True, blank=True)
     company_type = models.CharField(
         'cliente ou fornecedor',
@@ -165,6 +165,12 @@ class Company(TimeStampedModel, Address, Document, Active):
     def save(self, *args, **kwargs):
         self.slug = gen_slug(self.social_name, self.name, self.email)
         super(Company, self).save(*args, **kwargs)
+
+    def to_dict_json(self):
+        return {
+            'pk': self.pk,
+            'social_name': self.social_name,
+        }
 
 
 class CompanyContact(ContactBase):
@@ -285,6 +291,13 @@ class Employee(People, User):
         self.username = self.email
         self.slug = gen_slug(self.first_name, self.last_name, self.email)
         super(Employee, self).save(*args, **kwargs)
+
+    def to_dict_json(self):
+        _name = (self.first_name, self.last_name)
+        return {
+            'pk': self.pk,
+            'name': '{} {}'.format(_name[0], _name[1]),
+        }
 
 
 @receiver(post_save, sender=Employee)

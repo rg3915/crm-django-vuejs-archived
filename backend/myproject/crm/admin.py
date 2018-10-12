@@ -14,7 +14,6 @@ from .models import (
     ProviderContact,
 )
 from .managers import CompanyManager, ProviderManager
-from .forms import CompanyAdminForm, ProviderForm, EmployeeAdminForm
 
 
 class CompanyInline(admin.TabularInline):
@@ -30,7 +29,7 @@ class CompanyAdmin(admin.ModelAdmin):
     # prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name', 'social_name', 'email')
     list_filter = ('city',)
-    form = CompanyAdminForm
+    # form = CompanyAdminForm
     actions = None
 
     # def has_add_permission(self, request, obj=None):
@@ -61,7 +60,7 @@ class ProviderAdmin(admin.ModelAdmin):
     # prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name', 'social_name', 'email')
     list_filter = ('city',)
-    form = ProviderForm
+    # form = ProviderForm
     actions = None
 
     # def has_add_permission(self, request, obj=None):
@@ -110,7 +109,7 @@ class EmployeeAdmin(admin.ModelAdmin):
     # prepopulated_fields = {'slug': ('first_name', 'last_name')}
     # search_fields = ('first_name', 'last_name',)
     readonly_fields = ('date_joined',)
-    form = EmployeeAdminForm
+    # form = EmployeeAdminForm
     actions = None
 
     # def has_add_permission(self, request, obj=None):
