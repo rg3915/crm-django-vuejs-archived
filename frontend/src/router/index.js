@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Index from '../views/Index.vue'
 import Employees from '../views/Employees.vue'
+import EmployeeDetail from '../views/EmployeeDetail.vue'
 
 Vue.use (Router)
 

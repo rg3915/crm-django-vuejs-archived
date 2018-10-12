@@ -33,12 +33,9 @@
 
 <script>
 
-import axios from 'axios'
-
 export default {
   data () {
     return {
-      items: [],
       deletingItem: {}
     }
   },
@@ -47,11 +44,12 @@ export default {
   },
   methods: {
     deleteItem() {
-      // axios.delete('http://localhost:8000/api/crm/employee/' + this.deletingItem.pk)
-      // .then(response => {
-        const idx = this.items.indexOf(this.deletingItem)
-        this.items.splice(idx, 1)
-      // })
+      this.$store.dispatch('deleteEmployee', this.deletingItem)
+    }
+  },
+  computed: {
+    items() {
+      return this.$store.state.employees
     }
   }
 }
