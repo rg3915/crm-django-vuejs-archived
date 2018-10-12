@@ -6,6 +6,7 @@ app_name = 'crm'
 
 router = routers.DefaultRouter()
 router.register('employee', c.EmployeeViewSet)
+router.register('employee/<int:pk>/', c.EmployeeViewSet)
 
 # employee_contact_patterns = [
 #     path('<int:pk>/', c.employee_contact, name='employee_contact'),
