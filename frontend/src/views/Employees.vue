@@ -17,11 +17,9 @@ export default {
       items: []
     }
   },
-  created(){
-    axios.get('http://localhost:8000/api/crm/employee/')
-    .then(items => {
-      this.items = items.data
-    })
+  async created(){
+    const response = await axios.get('http://localhost:8000/api/crm/employee/')
+    this.items = response.data
   }
 }
 </script>
