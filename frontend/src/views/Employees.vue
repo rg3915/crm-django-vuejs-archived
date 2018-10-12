@@ -43,13 +43,7 @@ export default {
     }
   },
   async created(){
-    const response = await axios.get('http://localhost:8000/api/crm/employee/')
-    this.items = response.data.map(item => {
-      return {
-        'pk': item.pk,
-        'slug': item.slug,
-      }
-    })
+    this.$store.dispatch('getEmployees')
   },
   methods: {
     deleteItem() {

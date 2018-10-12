@@ -17,6 +17,13 @@ export default new Vuex.Store ({
     },
     setEmployees(state, payload) {
       state.employees = payload
+    },
+    deleteEmployee(state, payload) {
+      // axios.delete('http://localhost:8000/api/crm/employee/' + this.deletingItem.pk)
+      // .then(response => {
+        const idx = state.employees.indexOf(payload)
+        state.employees.splice(idx, 1)
+      // })
     }
   },
   actions: {
@@ -26,8 +33,18 @@ export default new Vuex.Store ({
     decrement({ commit }) {
       commit('decrement')
     },
-    getEmployees({ commit }) {
-      
+    async getEmployees({ commit }) {
+      const response = await axios.get('http://localhost:8000/api/crm/employee/')
+      const employees = response.data.map(item => {
+        return {
+          'pk': item.pk,
+          'slug': item.slug,
+        }
+      })
+      commit('setEmployees', employees)
+    },
+    deleteEmployee({ commit }, payload) {
+      commit('deleteEmployee', payload)
     }
   }
 })
