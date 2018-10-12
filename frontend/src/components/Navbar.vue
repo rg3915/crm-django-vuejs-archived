@@ -8,8 +8,8 @@
     <b-collapse is-nav id="nav_collapse">
 
       <b-navbar-nav>
-        <b-nav-item href="#">Link</b-nav-item>
-        <b-nav-item href="#" disabled>Disabled</b-nav-item>
+        <b-nav-item :to="{'name': 'index'}">Home</b-nav-item>
+        <b-nav-item :to="{'name': 'employees'}">Employees</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
