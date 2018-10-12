@@ -14,7 +14,11 @@
       <tbody>
         <tr v-for="item in items">
           <td>{{ item.pk }}</td>
-          <td>{{ item.slug }}</td>
+          <td>
+            <router-link :to="{name: 'employeeDetail', params: {id: item.pk}}">
+              {{ item.slug }}
+            </router-link>
+          </td>
           <td>
             <b-btn variant="link" v-b-modal.modal1 @click="deletingItem=item">
               <i class="fa fa-close" style="color:red"></i>
@@ -39,8 +43,10 @@ export default {
       deletingItem: {}
     }
   },
-  async created(){
-    this.$store.dispatch('getEmployees')
+  created(){
+    if (this.items.length == 0) {
+      this.$store.dispatch('getEmployees')
+    }
   },
   methods: {
     deleteItem() {

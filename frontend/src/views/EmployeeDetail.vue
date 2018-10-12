@@ -2,8 +2,8 @@
   <div>
     Employees
     
-    {{ pk }}
-    {{ slug }}
+    {{ employee.pk }}
+    {{ employee.slug }}
 
   </div>
 </template>
@@ -11,11 +11,12 @@
 <script>
 
 export default {
-  data () {
-    return {
-      items: [],
-      deletingItem: {}
+  computed: {
+    employee() {
+      return this.$store.state.employees.find(e => {
+        return e.pk == this.$route.params.id
+      })
     }
-  },
+  }
 }
 </script>
