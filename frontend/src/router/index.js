@@ -19,5 +19,10 @@ export default new Router ({
       name: 'employees',
       component: Employees
     },
+    {
+      path: '/crm/employees/:id',
+      name: 'employeeDetail',
+      component: EmployeeDetail
+    },
   ]
 })

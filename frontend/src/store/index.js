@@ -5,22 +5,29 @@ Vue.use (Vuex)
 
 export default new Vuex.Store ({
   state: {
-    counter: 0
+    counter: 0,
+    employees: []
   },
   mutations: {
-    increment(state){
+    increment(state) {
       state.counter++;
     },
-    decrement(state){
+    decrement(state) {
       state.counter--;
+    },
+    setEmployees(state, payload) {
+      state.employees = payload
     }
   },
   actions: {
-    increment({ commit }){
+    increment({ commit }) {
       commit('increment')
     },
-    decrement({ commit }){
+    decrement({ commit }) {
       commit('decrement')
     },
+    getEmployees({ commit }) {
+      
+    }
   }
 })
