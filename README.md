@@ -12,9 +12,12 @@ Como contribuir?
 
 ```
 git clone https://github.com/rg3915/crm-django-vuejs.git
-cd crm-django-vuejs
+cd crm-django-vuejs/frontend
+npm i
+cd ../backend
 python3 -m venv .venv
 source .venv/bin/activate
+pip install -U pip
 pip install -r requirements.txt
 python contrib/env_gen.py
 python manage.py migrate

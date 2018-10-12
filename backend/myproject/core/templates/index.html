@@ -51,7 +51,8 @@
                 <!-- change the image in style.css to the class header .container-fluid [approximately row 50] -->
                 <div class="container">
                     <div class="jumbotron">
-                      <img src="https://vuejs.org/images/logo.png" alt="">
+                      <img src="{% static 'img/django-seeklogo.com.svg' %}" alt="django" height="300px">
+                      <img src="{% static 'img/vuejs.png' %}" alt="vuejs" height="300px">
                       <p>
                         <a href="{% url 'core:dashboard' %}" style="color:#235367">Dashboard</a>
                       </p>
