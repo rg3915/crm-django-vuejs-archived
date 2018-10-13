@@ -16,6 +16,9 @@ export default {
   components: {
     HelloWorld,
     Navbar
+  },
+  created(){
+    this.$store.dispatch('getEmployees')
   }
 }
 </script>

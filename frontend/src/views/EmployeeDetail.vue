@@ -1,9 +1,15 @@
 <template>
   <div>
     Employees
-    
-    {{ employee.pk }}
-    {{ employee.slug }}
+
+    <div v-if="employee">
+      {{ employee.pk }}
+      {{ employee.slug }}
+    </div>
+
+    <div v-else>
+      Funcionário não encontrado
+    </div>
 
   </div>
 </template>

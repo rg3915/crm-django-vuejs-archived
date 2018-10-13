@@ -32,7 +32,7 @@ export default new Vuex.Store ({
     getEmployeeById (state) {
       return (id) => {
         return state.employees.find(e => {
-          return e.pk === id
+          return e.pk == id
         })
       }
     }

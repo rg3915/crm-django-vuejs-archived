@@ -43,11 +43,6 @@ export default {
       deletingItem: {}
     }
   },
-  created(){
-    if (this.items.length == 0) {
-      this.$store.dispatch('getEmployees')
-    }
-  },
   methods: {
     deleteItem() {
       this.$store.dispatch('deleteEmployee', this.deletingItem)
