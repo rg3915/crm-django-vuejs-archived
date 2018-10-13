@@ -1,14 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import employees from './employees'
+
+// Se fosse index2.js deveria ser 
+// import employees from './employees/index2'
 
 Vue.use (Vuex)
 
 
 export default new Vuex.Store ({
+  modules: {
+    employees
+  },
   state: {
-    counter: 0,
-    employees: []
+    counter: 0
   },
   mutations: {
     increment(state) {
@@ -16,25 +22,6 @@ export default new Vuex.Store ({
     },
     decrement(state) {
       state.counter--;
-    },
-    setEmployees(state, payload) {
-      state.employees = payload
-    },
-    deleteEmployee(state, payload) {
-      // axios.delete('http://localhost:8000/api/crm/employee/' + this.deletingItem.pk)
-      // .then(response => {
-        const idx = state.employees.indexOf(payload)
-        state.employees.splice(idx, 1)
-      // })
-    }
-  },
-  getters: {
-    getEmployeeById (state) {
-      return (id) => {
-        return state.employees.find(e => {
-          return e.pk == id
-        })
-      }
     }
   },
   actions: {
@@ -43,19 +30,6 @@ export default new Vuex.Store ({
     },
     decrement({ commit }) {
       commit('decrement')
-    },
-    async getEmployees({ commit }) {
-      const response = await axios.get('http://localhost:8000/api/crm/employee/')
-      const employees = response.data.map(item => {
-        return {
-          'pk': item.pk,
-          'slug': item.slug,
-        }
-      })
-      commit('setEmployees', employees)
-    },
-    deleteEmployee({ commit }, payload) {
-      commit('deleteEmployee', payload)
     }
   }
 })

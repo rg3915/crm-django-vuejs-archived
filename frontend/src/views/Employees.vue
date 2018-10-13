@@ -50,7 +50,7 @@ export default {
   },
   computed: {
     items() {
-      return this.$store.state.employees
+      return this.$store.state.employees.employees
     }
   }
 }
