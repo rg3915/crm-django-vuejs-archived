@@ -13,9 +13,8 @@
 export default {
   computed: {
     employee() {
-      return this.$store.state.employees.find(e => {
-        return e.pk == this.$route.params.id
-      })
+      const id = this.$route.params.id
+      return this.$store.getters.getEmployeeById(id)
     }
   }
 }

@@ -28,6 +28,15 @@ export default new Vuex.Store ({
       // })
     }
   },
+  getters: {
+    getEmployeeById (state) {
+      return (id) => {
+        return state.employees.find(e => {
+          return e.pk === id
+        })
+      }
+    }
+  },
   actions: {
     increment({ commit }) {
       commit('increment')
