@@ -66,7 +66,7 @@ class Utils:
         username = '{}-{}-{}'.format(
             first_name.lower(),
             last_name.lower(),
-            Utils.gen_string(5).lower()
+            Utils.gen_string(3).lower()
         )
         email = '{}@email.com'.format(username)
         return {
@@ -133,52 +133,40 @@ class UserClass:
         user.save()
 
     @staticmethod
-    def create_user2(max_itens=None):
-        for _ in range(max_itens):
-            person = Utils.gen_person()
-            user = User.objects.create_user(
-                username=person['username'],
-                email=person['email'],
-                first_name=person['first_name'],
-                last_name=person['last_name'],
-                is_staff=True,
-                is_superuser=False,
-            )
-            user.set_password('d')
-            user.save()
-
-    @staticmethod
     def create_occupation():
         Occupation.objects.all().delete()
         obj = [Occupation(occupation=val) for val in OCCUPATION_LIST]
         Occupation.objects.bulk_create(obj)
 
     @staticmethod
-    def create_employee():
-        for user in USERS:
-            _occupation = user.get('occupation')
-            occupation = Occupation.objects.get(occupation=_occupation)
+    def create_employee(max_itens=None):
+        # users = User.objects.all()
+        for _ in range(max_itens):
+            # _occupation = user.get('occupation')
+            occupation = choice(Occupation.objects.all())
+            person = Utils.gen_person()
             Employee.objects.create(
-                username=user['username'],
-                email=user['email'],
-                first_name=user['first_name'],
-                last_name=user['last_name'],
+                username=person['username'],
+                email=person['email'],
+                first_name=person['first_name'],
+                last_name=person['last_name'],
                 occupation=occupation,
-                city=user['city'],
-                uf=user['uf']
+                city='São Paulo',
+                uf='SP'
             )
 
     @staticmethod
     def update_pass_of_users():
-        for user in USERS:
-            _user = User.objects.get(email=user['email'])
-            _user.is_staff = True
-            _user.is_superuser = True
-            _user.set_password('d')
-            _user.save()
-            if user.get('group_name'):
-                group, _ = Group.objects.get_or_create(name=user['group_name'])
-                _user.groups.add(group)
+        users = User.objects.all()
+        for user in users:
+            # _user = User.objects.get(email=user['email'])
+            user.is_staff = True
+            user.is_superuser = True
+            user.set_password('d')
+            user.save()
+            # if user.get('group_name'):
+            group, _ = Group.objects.get_or_create(name='simpleuser')
+            user.groups.add(group)
 
     @staticmethod
     def permissions_to_groups():
@@ -308,21 +296,6 @@ class UserClass:
         TypeExpense.objects.bulk_create(obj)
 
 
-# class ReceiptClass:
-
-#     @staticmethod
-#     def create_receipt(signal_value=True):
-#         aux_list = []
-#         for i in RECEIPTS:
-#             items = Abstracts.abstract_dict(signal_value=signal_value)
-#             data = {
-#                 'description': i.get('description'),
-#                 **items
-#             }
-#             aux_list.append(Receipt(**data))
-#         Receipt.objects.bulk_create(aux_list)
-
-
 class ExpenseClass:
 
     @staticmethod
@@ -367,9 +340,8 @@ tic = timeit.default_timer()
 User.objects.all().delete()
 
 UserClass.create_user1()
-UserClass.create_user2(max_itens=100)
 UserClass.create_occupation()
-UserClass.create_employee()
+UserClass.create_employee(max_itens=100)
 UserClass.update_pass_of_users()
 UserClass.permissions_to_groups()
 UserClass.create_company()
@@ -378,7 +350,7 @@ UserClass.create_provider()
 UserClass.create_bank_account()
 UserClass.create_type_expense()
 
-ExpenseClass.create_expense2(max_itens=200)
+# ExpenseClass.create_expense2(max_itens=200)
 
 toc = timeit.default_timer()
 print('time', toc - tic)
