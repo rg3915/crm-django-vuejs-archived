@@ -60,6 +60,22 @@ class Utils:
         }
         return data
 
+    def gen_person():
+        first_name = names.get_first_name()
+        last_name = names.get_last_name()
+        username = '{}-{}-{}'.format(
+            first_name.lower(),
+            last_name.lower(),
+            Utils.gen_string(5).lower()
+        )
+        email = '{}@email.com'.format(username)
+        return {
+            'first_name': first_name,
+            'last_name': last_name,
+            'username': username,
+            'email': email,
+        }
+
     def gen_text():
         lorem = LOREM.split(' ')
         text = sample(lorem, randint(15, 30))
@@ -115,6 +131,21 @@ class UserClass:
         )
         user.set_password('d')
         user.save()
+
+    @staticmethod
+    def create_user2(max_itens=None):
+        for _ in range(max_itens):
+            person = Utils.gen_person()
+            user = User.objects.create_user(
+                username=person['username'],
+                email=person['email'],
+                first_name=person['first_name'],
+                last_name=person['last_name'],
+                is_staff=True,
+                is_superuser=False,
+            )
+            user.set_password('d')
+            user.save()
 
     @staticmethod
     def create_occupation():
@@ -336,6 +367,7 @@ tic = timeit.default_timer()
 User.objects.all().delete()
 
 UserClass.create_user1()
+UserClass.create_user2(max_itens=100)
 UserClass.create_occupation()
 UserClass.create_employee()
 UserClass.update_pass_of_users()
