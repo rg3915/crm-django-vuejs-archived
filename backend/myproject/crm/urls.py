@@ -5,6 +5,6 @@ from myproject.crm import views as c
 app_name = 'crm'
 
 urlpatterns = [
-    path('employee/', c.employee_list),
-    path('employee/<int:pk>/', c.employee_detail),
+    path('employee/', c.EmployeeList.as_view()),
+    path('employee/<int:pk>/', c.EmployeeDetail.as_view()),
 ]
