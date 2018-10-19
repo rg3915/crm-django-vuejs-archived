@@ -12,7 +12,10 @@ const getEmployees = async ({ commit }) => {
 }
 
 const deleteEmployee = ({ commit }, payload) => {
-  commit('deleteEmployee', payload)
+  axios.delete('http://localhost:8000/api/crm/employee/' + payload.pk)
+  .then(response => {
+    commit('deleteEmployee', payload)
+  })
 }
 
 export default {
