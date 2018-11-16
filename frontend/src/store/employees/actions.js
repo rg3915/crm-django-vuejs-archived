@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const getEmployees = async ({ commit }) => {
-  const response = await axios.get('http://localhost:8000/api/crm/employee/')
+  const url = 'http://localhost:8000/api/crm/employee/'
+  const response = await axios.get(url)
   const employees = response.data.map(item => {
     return {
       'pk': item.pk,
@@ -12,7 +13,8 @@ const getEmployees = async ({ commit }) => {
 }
 
 const deleteEmployee = ({ commit }, payload) => {
-  axios.delete('http://localhost:8000/api/crm/employee/' + payload.pk)
+  const url = `http://localhost:8000/api/crm/employee/${payload.pk}/`
+  axios.delete(url)
   .then(response => {
     commit('deleteEmployee', payload)
   })

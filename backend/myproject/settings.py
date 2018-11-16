@@ -1,4 +1,5 @@
 import os
+# from corsheaders.defaults import default_headers
 from decouple import config, Csv
 from dj_database_url import parse as dburl
 
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# CORS_ALLOW_HEADERS = default_headers + ("Access-Control-Allow-Origin",)
 CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'myproject.urls'
