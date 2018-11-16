@@ -76,14 +76,6 @@ class Document(models.Model):
         null=True,
         blank=True
     )
-    oab = models.CharField('OAB', max_length=8, null=True, blank=True)
-    oab_uf = models.CharField(
-        'OAB UF',
-        max_length=2,
-        choices=STATE_CHOICES,
-        null=True,
-        blank=True
-    )
 
     class Meta:
         abstract = True
