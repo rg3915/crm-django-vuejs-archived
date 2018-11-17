@@ -1,5 +1,8 @@
 <template>
   <div>
+    <router-link :to="{name: 'employeeCreate'}">
+      <button class="btn">Adicionar</button>
+    </router-link>
     Employees
     
     <!-- <b-table striped hover :items="items"></b-table> -->
@@ -12,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in items">
+        <tr v-for="item in items" :key="item.pk">
           <td>{{ item.pk }}</td>
           <td>
             <router-link :to="{name: 'employeeDetail', params: {id: item.pk}}">

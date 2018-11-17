@@ -1,5 +1,9 @@
 import axios from 'axios'
 
+const addEmployee = (state, payload) => {
+  state.employees.unshift(payload);
+}
+
 const setEmployees = (state, payload) => {
   state.employees = payload
 }
@@ -10,6 +14,7 @@ const deleteEmployee = (state, payload) => {
 }
 
 export default {
+  addEmployee,
   setEmployees,
   deleteEmployee,
 }

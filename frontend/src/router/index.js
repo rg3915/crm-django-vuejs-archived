@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Index from '../views/Index.vue'
 import Employees from '../views/Employees.vue'
 import EmployeeDetail from '../views/EmployeeDetail.vue'
+import EmployeeForm from '../views/EmployeeForm.vue'
 
 Vue.use (Router)
 
@@ -19,6 +20,11 @@ export default new Router ({
       path: '/crm/employees',
       name: 'employees',
       component: Employees
+    },
+    {
+      path: '/crm/employees/add',
+      name: 'employeeCreate',
+      component: EmployeeForm
     },
     {
       path: '/crm/employees/:id',
