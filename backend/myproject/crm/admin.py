@@ -1,6 +1,5 @@
 from django.utils.html import format_html
 from django.contrib import admin
-from .managers import PersonManager
 from .models import (
     Company,
     CompanyContact,
@@ -9,7 +8,6 @@ from .models import (
     EmployeeContact,
     EmployeePhone,
     Occupation,
-    Person,
     Provider,
     ProviderContact,
 )
@@ -106,17 +104,8 @@ class EmployeeBankInline(admin.TabularInline):
 class EmployeeAdmin(admin.ModelAdmin):
     inlines = (EmployeeContactInline, EmployeePhoneInline, EmployeeBankInline)
     list_display = ('__str__', 'photo_img', 'slug', 'active')
-    # prepopulated_fields = {'slug': ('first_name', 'last_name')}
-    # search_fields = ('first_name', 'last_name',)
-    readonly_fields = ('date_joined',)
-    # form = EmployeeAdminForm
+    # readonly_fields = ('date_joined',)
     actions = None
-
-    # def has_add_permission(self, request, obj=None):
-    #     return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False
 
     def photo_img(self, obj):
         if obj.photo:

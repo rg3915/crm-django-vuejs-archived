@@ -224,7 +224,8 @@ class ProviderContact(ContactBase):
         verbose_name_plural = 'Contatos Fornecedores'
 
 
-class Employee(People, User):
+class Employee(People):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     internal = models.BooleanField('interno', default=True)
     occupation = models.ForeignKey(
         'Occupation',
@@ -253,12 +254,12 @@ class Employee(People, User):
     )
 
     class Meta:
-        ordering = ('first_name',)
+        ordering = ('user__first_name',)
         verbose_name = u'funcionário'
         verbose_name_plural = u'funcionários'
 
     def __str__(self):
-        return self.get_full_name()
+        return self.user.get_full_name()
 
     def get_absolute_url(self):
         return reverse_lazy('crm:employee_detail', kwargs={'pk': self.pk})
@@ -286,14 +287,14 @@ class Employee(People, User):
             return reverse_lazy('crm:employee_delete', kwargs=kw)
         return None
 
-    def save(self, *args, **kwargs):
-        # Salva username = email
-        self.username = self.email
-        self.slug = gen_slug(self.first_name, self.last_name, self.email)
-        super(Employee, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     # Salva username = email
+    #     self.username = self.email
+    #     # self.slug = gen_slug(self.first_name, self.last_name, self.email)
+    #     super(Employee, self).save(*args, **kwargs)
 
     def to_dict_json(self):
-        _name = (self.first_name, self.last_name)
+        _name = (self.user.first_name, self.user.last_name)
         return {
             'pk': self.pk,
             'name': '{} {}'.format(_name[0], _name[1]),

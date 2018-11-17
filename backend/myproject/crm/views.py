@@ -1,6 +1,12 @@
+from django.contrib.auth.models import User
 from rest_framework import generics
-from .serializers import EmployeeSerializer
+from .serializers import EmployeeSerializer, UserSerializer
 from .models import Employee
+
+
+class UserList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
 class EmployeeList(generics.ListCreateAPIView):
