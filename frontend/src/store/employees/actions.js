@@ -16,31 +16,13 @@ const getEmployees = async ({ commit }) => {
 const addEmployee = ({ commit }, payload) => {
   axios.post('http://localhost:8000/api/crm/user/', payload)
   .then(response => {
-    commit('addEmployee', response.data)
-    console.log(response.data)
+    const pk = response.data.pk
+    axios.post(endpoint, {slug: payload.slug, user: pk})
+    .then(res => {
+      commit('addEmployee', {slug: res.data.slug,  pk: res.data.pk})
+    })
   })
 }
-
-// const addEmployee = ({ commit }, payload) => {
-//   // axios.post('http://localhost:8000/api/crm/user/', payload)
-//   axios.post(endpoint, payload)
-//   .then(response => {
-//     commit('addEmployee', response.data)
-//     console.log(response.data)
-//   })
-// }
-
-// const addEmployee = ({ commit }, payload) => {
-//   axios.post('http://localhost:8000/api/crm/user/', payload)
-//   .then(response => {
-//     console.log('response', response);
-//     axios.post(endpoint, {slug: payload.slug, user_ptr_id:response.data.pk})
-//     console.log('payload', payload)
-//     .then(response => {
-//       commit('addEmployee', response.data)
-//     })
-//   })
-// }
 
 const deleteEmployee = ({ commit }, payload) => {
   const url = `${endpoint}${payload.pk}/`

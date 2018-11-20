@@ -23,6 +23,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
         model = Employee
         fields = (
             'pk',
+            'user',
             'personal_email',
             'slug',
             'photo',

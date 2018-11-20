@@ -301,12 +301,12 @@ class Employee(People):
         }
 
 
-@receiver(post_save, sender=Employee)
-def create_or_update_employee(sender, instance, created, **kwargs):
-    if created:
-        # Add Group
-        simpleuser, _ = Group.objects.get_or_create(name='simpleuser')
-        instance.groups.add(simpleuser)
+# @receiver(post_save, sender=Employee)
+# def create_or_update_employee(sender, instance, created, **kwargs):
+#     if created:
+#         # Add Group
+#         simpleuser, _ = Group.objects.get_or_create(name='simpleuser')
+#         instance.groups.add(simpleuser)
 
 
 class EmployeeContact(ContactBase):
