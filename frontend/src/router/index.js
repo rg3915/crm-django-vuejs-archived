@@ -17,17 +17,17 @@ export default new Router ({
       component: Index
     },
     {
-      path: '/crm/employees',
+      path: '/crm/employee',
       name: 'employees',
       component: Employees
     },
     {
-      path: '/crm/employees/add',
+      path: '/crm/employee/add',
       name: 'employeeCreate',
       component: EmployeeForm
     },
     {
-      path: '/crm/employees/:id',
+      path: '/crm/employee/:id',
       name: 'employeeDetail',
       component: EmployeeDetail
     },
