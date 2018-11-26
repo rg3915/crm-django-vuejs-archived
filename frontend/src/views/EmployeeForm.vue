@@ -41,7 +41,7 @@ export default {
   methods: {
     addItem() {
       this.$store.dispatch('addEmployee', this.form)
-        this.$router.push('/crm/employees')
+        this.$router.push('/crm/employee')
     }
   }
 }

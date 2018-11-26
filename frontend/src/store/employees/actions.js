@@ -19,7 +19,7 @@ const addEmployee = ({ commit }, payload) => {
     const pk = response.data.pk
     axios.post(endpoint, {slug: payload.slug, user: pk})
     .then(res => {
-      commit('addEmployee', {slug: res.data.slug,  pk: res.data.pk})
+      commit('addEmployee', {slug: res.data.slug, pk: res.data.pk})
     })
   })
 }
